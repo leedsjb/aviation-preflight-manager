@@ -6,5 +6,7 @@
     <string name="prepare_button">Prepare for a flight</string>
     <string name="check_status_button">Check/Update airplane status</string>
     <string name="upcoming">Upcoming and Due</string>
+    <string name="title_inspectionitem_list">InspectionItems</string>
+    <string name="title_inspectionitem_detail">InspectionItem Detail</string>
 
 </resources>
