@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        // Onclick Listeners
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
                 startActivity(i);
+            }
+        });
+
+        Button statusButton = (Button) findViewById(R.id.status_button);
+        prepareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
+//                startActivity(i);
             }
         });
     }

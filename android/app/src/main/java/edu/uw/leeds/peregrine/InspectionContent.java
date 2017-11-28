@@ -14,17 +14,18 @@ import java.util.Map;
 
 public class InspectionContent {
     /**
-     * An array of sample (dummy) items.
+     * An array of Inspection items.
      */
     public static final List<InspectionItem> ITEMS = new ArrayList<InspectionItem>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of inspection items, by ID.
      */
     public static final Map<String, InspectionItem> ITEM_MAP = new HashMap<String, InspectionItem>();
 
     private static final int COUNT = 25;
 
+    // TODO: Get actual content @Benjamin Leeds
     static {
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
