@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Peregrine</string>
     <string name="action_settings">Settings</string>
+
+    <!--MainActivity-->
+    <string name="prepare_button">Prepare for a flight</string>
+    <string name="check_status_button">Check/Update airplane status</string>
+    <string name="upcoming">Upcoming and Due</string>
+
 </resources>
