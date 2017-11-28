@@ -41,7 +41,8 @@
     <!--TODO: Set up adapter for list view-->
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/upcoming_list_view">
     </ListView>
 
 </LinearLayout>
