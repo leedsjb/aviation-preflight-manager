@@ -8,5 +8,7 @@
     <string name="upcoming">Upcoming and Due</string>
     <string name="title_inspectionitem_list">InspectionItems</string>
     <string name="title_inspectionitem_detail">InspectionItem Detail</string>
+    <string name="title_aircraft_list">Aircrafts</string>
+    <string name="title_aircraft_detail">Aircraft Detail</string>
 
 </resources>

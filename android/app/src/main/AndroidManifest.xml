@@ -22,7 +22,7 @@
         <activity
             android:name=".InspectionItemListActivity"
             android:label="@string/title_inspectionitem_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".InspectionItemDetailActivity"
             android:label="@string/title_inspectionitem_detail"
@@ -31,6 +31,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.uw.leeds.peregrine.InspectionItemListActivity" />
+        </activity>
+        <activity
+            android:name=".AircraftListActivity"
+            android:label="@string/title_aircraft_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AircraftDetailActivity"
+            android:label="@string/title_aircraft_detail"
+            android:parentActivityName=".AircraftListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.AircraftListActivity" />
         </activity>
     </application>
 

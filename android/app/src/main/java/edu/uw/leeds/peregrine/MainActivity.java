@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button statusButton = (Button) findViewById(R.id.status_button);
-        prepareButton.setOnClickListener(new View.OnClickListener() {
+        statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
-//                startActivity(i);
+                Intent i = new Intent(MainActivity.this, AircraftListActivity.class);
+                startActivity(i);
             }
         });
     }
