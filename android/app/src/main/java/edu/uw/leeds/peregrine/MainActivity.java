@@ -72,4 +72,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-
+// TODO: Landing page
+// TODO: Nav drawer @Jessica
+// TODO: Upcoming flights + Enter new airport @Jessica
+// TODO: Notifications: @Jessica
+// TODO: Pilot physical requirements Master/Detail
+// TODO: Aircraft Airworthiness Master/Detail
+// TODO: Aircraft Master/Detail

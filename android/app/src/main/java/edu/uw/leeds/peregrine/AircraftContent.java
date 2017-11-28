@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class AircraftContent {
     /**
-     * An array of Inspection items.
+     * An array of aircraft items.
      */
     public static final List<AircraftItem> ITEMS = new ArrayList<AircraftItem>();
 
     /**
-     * A map of inspection items, by ID.
+     * A map of aircraft items, by ID.
      */
     public static final Map<String, AircraftItem> ITEM_MAP = new HashMap<String, AircraftItem>();
 
