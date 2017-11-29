@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    protected DatabaseReference mDatabaseRef; // single DB ref for entire app
+    protected static DatabaseReference mDatabaseRef; // single DB ref for entire app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
