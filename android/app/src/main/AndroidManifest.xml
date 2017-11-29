@@ -67,12 +67,9 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
 
-        <service android:name=".CurrentLocationService">
-
-        </service>
-        <service android:name=".WeatherService">
-
-        </service>
+        <service android:name=".CurrentLocationService"></service>
+        <service android:name=".WeatherService"></service>
+        <service android:name=".AirportService"></service>
     </application>
 
 </manifest>
