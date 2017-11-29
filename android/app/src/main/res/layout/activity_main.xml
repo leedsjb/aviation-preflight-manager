@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.uw.leeds.peregrine.MainActivity">
+    tools:context="edu.uw.leeds.peregrine.MainActivity"
+    android:id="@+id/drawer_layout">
 
-    <!--Main screen content-->
+    <!--Main Activity content-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,8 +50,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/activity_nav_drawer_drawer" />
-
-
-
 
 </android.support.v4.widget.DrawerLayout>

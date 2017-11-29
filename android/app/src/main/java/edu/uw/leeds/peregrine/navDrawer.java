@@ -44,6 +44,8 @@ public class navDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+        Log.v(TAG, "Created drawer");
     }
 
     @Override
@@ -68,6 +70,7 @@ public class navDrawer extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.v(TAG, "Option Item selected :)");
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -78,9 +81,12 @@ public class navDrawer extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Log.v(TAG, "Navigation Item selected :)");
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
