@@ -1,8 +1,10 @@
 package edu.uw.leeds.peregrine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +17,8 @@ import android.view.MenuItem;
 
 public class navDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "navDrawer";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +84,20 @@ public class navDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.my_planes) {
+            Intent i = new Intent(navDrawer.this, AircraftListActivity.class);
+            startActivity(i);
+            Log.v(TAG, "planes*******************");
+        } else if (id == R.id.prep_for_flight) {
+            //Not sure what intended activities are for this and maintenance_airworthiness
+            Intent i = new Intent(navDrawer.this, InspectionItemListActivity.class);
+            startActivity(i);
+        } else if (id == R.id.maintenance_airworthiness) {
+            Intent i = new Intent(navDrawer.this, InspectionContent.class);
+            startActivity(i);
+        } else if (id == R.id.medical_requirements) {
+            Intent i = new Intent(navDrawer.this, PilotPhysicalDetailActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
