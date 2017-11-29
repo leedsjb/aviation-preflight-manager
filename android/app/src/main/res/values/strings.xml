@@ -12,5 +12,9 @@
     <string name="title_aircraft_detail">Aircraft Detail</string>
     <string name="title_pilotphysical_list">PilotPhysicals</string>
     <string name="title_pilotphysical_detail">PilotPhysical Detail</string>
+    <string name="title_activity_nav_drawer">navDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>
