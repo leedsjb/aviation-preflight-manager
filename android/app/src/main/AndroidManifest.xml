@@ -3,6 +3,7 @@
     package="edu.uw.leeds.peregrine">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,9 @@
         </activity>
 
         <service android:name=".CurrentLocationService">
+
+        </service>
+        <service android:name=".WeatherService">
 
         </service>
     </application>
