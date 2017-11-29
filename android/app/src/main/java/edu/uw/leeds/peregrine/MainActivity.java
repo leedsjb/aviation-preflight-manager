@@ -1,5 +1,6 @@
 package edu.uw.leeds.peregrine;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -48,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        // TODO: Move to where we need medical requirements.
+//        Intent i = new Intent(MainActivity.this, PilotPhysicalListActivity.class);
+//        startActivity(i);
+
+        // TODO: Populate upcoming listview.
     }
 
     @Override
@@ -76,6 +83,6 @@ public class MainActivity extends AppCompatActivity {
 // TODO: Nav drawer @Jessica
 // TODO: Upcoming flights + Enter new airport @Jessica
 // TODO: Notifications: @Jessica
-// TODO: Pilot physical requirements Master/Detail
-// TODO: Aircraft Airworthiness Master/Detail
-// TODO: Aircraft Master/Detail
+// TODO: Pilot physical requirements Master/Detail @Ishan
+// TODO: Aircraft Airworthiness Master/Detail @Ishan
+// TODO: Aircraft Master/Detail @Ishan
