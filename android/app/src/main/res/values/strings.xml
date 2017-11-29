@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">Peregrine</string>
     <string name="action_settings">Settings</string>
+
+    <!--MainActivity-->
+    <string name="prepare_button">Prepare for a flight</string>
+    <string name="check_status_button">Check/Update airplane status</string>
+    <string name="upcoming">Upcoming and Due</string>
+    <string name="title_inspectionitem_list">InspectionItems</string>
+    <string name="title_inspectionitem_detail">InspectionItem Detail</string>
+    <string name="title_aircraft_list">Aircrafts</string>
+    <string name="title_aircraft_detail">Aircraft Detail</string>
+    <string name="title_pilotphysical_list">PilotPhysicals</string>
+    <string name="title_pilotphysical_detail">PilotPhysical Detail</string>
+    <string name="title_activity_nav_drawer">navDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>
