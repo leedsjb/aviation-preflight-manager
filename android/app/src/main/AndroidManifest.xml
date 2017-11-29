@@ -61,6 +61,10 @@
         <activity
             android:name=".navDrawer"
             android:label="@string/title_activity_nav_drawer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpcomingFlight"
+            android:label="@string/title_activity_upcoming_flight"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
