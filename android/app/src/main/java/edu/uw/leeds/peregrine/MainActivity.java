@@ -9,7 +9,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    protected DatabaseReference mDatabaseRef; // single DB ref for entire app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        // connect to Firebase
+        FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
+        this.mDatabaseRef = dbInstance.getReference();
     }
 
     @Override
