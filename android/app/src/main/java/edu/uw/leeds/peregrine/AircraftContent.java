@@ -115,13 +115,12 @@ public class AircraftContent {
      * One inspection task for aircraft airworthiness.
      */
     public static class AircraftItem {
-        public final String id;
-
-        public final String planeName;
-        public final String serialNumber;
-        public final String yearOfManufacture;
-        public final String tachometerTime;
-        public final String fuelLevel;
+        public String id;
+        public String planeName;
+        public String serialNumber;
+        public String yearOfManufacture;
+        public String tachometerTime;
+        public String fuelLevel;
 
         public AircraftItem(String id, String planeName, String serialNumber, String yearOfManufacture, String tachometerTime, String fuelLevel) {
             this.id = id;
@@ -131,6 +130,8 @@ public class AircraftContent {
             this.tachometerTime = tachometerTime;
             this.fuelLevel = fuelLevel;
         }
+
+        public AircraftItem(){};
 
         @Exclude
         public String getId(){
