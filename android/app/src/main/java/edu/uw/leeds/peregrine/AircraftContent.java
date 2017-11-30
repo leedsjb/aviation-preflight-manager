@@ -16,7 +16,6 @@ import java.util.Map;
  *
  * Store all the content for aircrafts
  */
-
 public class AircraftContent {
     /**
      * An array of aircraft items.
@@ -29,6 +28,8 @@ public class AircraftContent {
     public static final Map<String, AircraftItem> ITEM_MAP = new HashMap<String, AircraftItem>();
 
     private static final String TAG = "AircraftContent";
+
+    private static ChildEventListener childEventListener;
 
     /**
      * Called by onCreate() in AircraftListActivity
@@ -75,7 +76,20 @@ public class AircraftContent {
             }
         };
 
-        aircraftDbReference.addChildEventListener(aircraftEventListener); // add event listener
+        childEventListener = aircraftDbReference.addChildEventListener(aircraftEventListener); // add event listener
+
+    }
+
+    /**
+     * removes ChildEventListener from DatabaseReference when activity is paused
+     */
+    protected static void removeEvListener(){
+        if(childEventListener != null){
+            DatabaseReference aircraftDbReference = MainActivity.mDatabaseRef.child("aircraft-list");
+            aircraftDbReference.removeEventListener(childEventListener);
+            ITEMS.clear(); // clear data from local ArrayList<>
+            ITEM_MAP.clear(); // clear data from local Map
+        }
     }
 
     /**
