@@ -2,8 +2,10 @@ package edu.uw.leeds.peregrine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,10 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-
-import edu.uw.leeds.peregrine.dummy.DummyContent;
-
 import java.util.List;
 
 /**
@@ -47,11 +45,15 @@ public class AircraftListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        // use ContextCompat due to getDrawable() changes in SDK 21
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(AircraftListActivity.this, ManufacturerListActivity.class);
+                startActivity(intent);
             }
         });
 
