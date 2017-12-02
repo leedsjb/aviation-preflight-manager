@@ -22,8 +22,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.uw.leeds.peregrine.dummy.DummyContent;
@@ -46,6 +49,7 @@ public class ManufacturerListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     private static final String TAG = "ManufactureListActivity";
+    private SimpleItemRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +89,10 @@ public class ManufacturerListActivity extends AppCompatActivity {
 
         String url = "https://v4p4sz5ijk.execute-api.us-east-1.amazonaws.com/anbdata/aircraft/designators/manufacturer-list?api_key=5f5a7e20-bdf6-11e7-a841-f125d0e359d9&format=json&manufacturer=";
 
-        Response.Listener<JSONObject> respListener = new Response.Listener<JSONObject>(){
-            public void onResponse(JSONObject resp){
-                Log.e(TAG,  resp.toString());
-
+        Response.Listener<JSONArray> respListener = new Response.Listener<JSONArray>(){
+            public void onResponse(JSONArray resp){
+                AircraftDatabase.AircraftManufacturer.parseManufacturerJSON(resp);
+                adapter.notifyDataSetChanged(); // update adapter with new data
             }
         };
 
@@ -99,7 +103,7 @@ public class ManufacturerListActivity extends AppCompatActivity {
             }
         };
 
-        Request<JSONObject> request = new JsonObjectRequest(Request.Method.GET, url, null, respListener, errListener);
+        Request<JSONArray> request = new JsonArrayRequest(Request.Method.GET, url, null, respListener, errListener);
 
         // obtain request queue from Volley
         RequestQueue requestQueue = RequestSingleton.getInstance(this).getRequestQueue();
@@ -107,15 +111,21 @@ public class ManufacturerListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets up the Recycler View with content
+     * The data to populated the view is retrieved from a class static instance field pointing to a list
+     * @param recyclerView
+     */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        this.adapter = new SimpleItemRecyclerViewAdapter(this, AircraftDatabase.MANUFACTURERS, mTwoPane);
+        recyclerView.setAdapter(this.adapter);
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ManufacturerListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<AircraftDatabase.AircraftManufacturer> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
@@ -139,8 +149,14 @@ public class ManufacturerListActivity extends AppCompatActivity {
             }
         };
 
+        /**
+         * Cosntructor
+         * @param parent
+         * @param items
+         * @param twoPane
+         */
         SimpleItemRecyclerViewAdapter(ManufacturerListActivity parent,
-                                      List<DummyContent.DummyItem> items,
+                                      List<AircraftDatabase.AircraftManufacturer> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
@@ -156,8 +172,14 @@ public class ManufacturerListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+
+            AircraftDatabase.AircraftManufacturer manufacturer = mValues.get(position);
+
+            holder.mIdView.setText(manufacturer.id.toString());
+            holder.mContentView.setText(manufacturer.manufacturerCode);
+
+            String stringNumOfTypes = Integer.toString(manufacturer.numOfTypes); // setText reqs String
+            holder.mNumTypes.setText(stringNumOfTypes);
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -168,14 +190,23 @@ public class ManufacturerListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
+        /**
+         * ViewHolder Class
+         */
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
+            final TextView mNumTypes;
 
+            /**
+             * Constructor
+             * @param view
+             */
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
+                mNumTypes = (TextView) view.findViewById(R.id.num_types);
             }
         }
     }
