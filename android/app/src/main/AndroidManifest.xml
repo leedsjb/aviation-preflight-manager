@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.uw.leeds.peregrine">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -66,6 +69,14 @@
             android:name=".UpcomingFlight"
             android:label="@string/title_activity_upcoming_flight"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
+        <service android:name=".CurrentLocationService">
+
+        </service>
+        <service android:name=".WeatherService">
+
+        </service>
     </application>
 
 </manifest>

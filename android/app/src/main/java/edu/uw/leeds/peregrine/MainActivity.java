@@ -3,10 +3,16 @@ package edu.uw.leeds.peregrine;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +21,11 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
-    protected DatabaseReference mDatabaseRef; // single DB ref for entire app
+    protected static DatabaseReference mDatabaseRef; // single DB ref for entire app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         // connect to Firebase
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
         this.mDatabaseRef = dbInstance.getReference();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+        setupDrawer();
+        Log.v(TAG, "Created drawer");
     }
 
     @Override
@@ -87,6 +100,57 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Log.v(TAG, "Navigation Item selected");
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.my_planes) {
+            Intent i = new Intent(this, AircraftListActivity.class);
+            startActivity(i);
+            Log.v(TAG, "planes*******************");
+        } else if (id == R.id.prep_for_flight) {
+            //Not sure what intended activities are for this and maintenance_airworthiness
+            Intent i = new Intent(this, InspectionItemListActivity.class);
+            startActivity(i);
+        } else if (id == R.id.maintenance_airworthiness) {
+            Intent i = new Intent(this, InspectionItemListActivity.class);
+            startActivity(i);
+        } else if (id == R.id.medical_requirements) {
+            Intent i = new Intent(this, PilotPhysicalDetailActivity.class);
+            startActivity(i);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setupDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawer,
+                (Toolbar) findViewById(R.id.toolbar),
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        drawer.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
     }
 }
 // TODO: Landing page

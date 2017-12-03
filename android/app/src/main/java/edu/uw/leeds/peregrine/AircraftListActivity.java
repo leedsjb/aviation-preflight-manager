@@ -34,6 +34,8 @@ public class AircraftListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private static final String TAG = "AircraftListActivity";
+    private static SimpleItemRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +63,35 @@ public class AircraftListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        // temp: create new aircraft for db, will eventually come from user selectable ac db
+//        AircraftContent.AircraftItem newAc = new AircraftContent.AircraftItem(
+//                "99", "DA-40", "40.179",
+//                "2003", "100", "full"
+//        );
+
+        // add ac to user profile
+        // TODO implement activity for this method to be called from
+//        AircraftContent.addAircraftToUserProfile(newAc);
+
+        // initialize ac data for this user
+        AircraftContent.initializeData();
+
         View recyclerView = findViewById(R.id.aircraft_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, AircraftContent.ITEMS, mTwoPane));
+        adapter = new SimpleItemRecyclerViewAdapter(this, AircraftContent.ITEMS, mTwoPane);
+        recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * Tells adapter there has been a change
+     * @param id the id of the item that has changed
+     */
+    protected static void notifyChange(int id){
+        adapter.notifyItemChanged(id);
     }
 
     public static class SimpleItemRecyclerViewAdapter
