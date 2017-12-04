@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
                 notifyUser(new NotificationMessage("hello", "2 days", "high"));
 
+                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
+                startActivity(i);
             }
         });
 
@@ -90,6 +93,14 @@ public class MainActivity extends AppCompatActivity
         setupDrawer();
         Log.v(TAG, "Created drawer");
 
+        // Set details of header in nav drawer.
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.pilot_name);
+        TextView nav_email = (TextView)hView.findViewById(R.id.pilot_email);
+        // TODO: Get user shared preferences
+        // TODO: Set image
+        nav_user.setText("Piloty McPilotFace");
+        nav_email.setText("pilot@plane.com");
     }
 
     @Override
