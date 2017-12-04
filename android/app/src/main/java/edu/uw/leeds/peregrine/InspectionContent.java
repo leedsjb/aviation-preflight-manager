@@ -64,7 +64,7 @@ public class InspectionContent {
      *
      * One inspection task for aircraft airworthiness.
      */
-    public static class InspectionItem {
+    public static class InspectionItem implements MainActivity.ToDoItem{
         public String id;
 
         public String title;
@@ -94,6 +94,21 @@ public class InspectionContent {
 
         public String toString() {
             return title + " due at " + dueNext.toString();
+        }
+
+        @Override
+        public String getId() {
+            return this.id;
+        }
+
+        @Override
+        public String getTitle() {
+            return this.title;
+        }
+
+        @Override
+        public Date getDate() {
+            return this.dueNext;
         }
     }
 }

@@ -10,12 +10,7 @@
     tools:showIn="@layout/activity_main"
     android:orientation="vertical">
 
-    <!--Logo Image-->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logo"
-        android:src="@mipmap/ic_launcher"/>
+
 
     <!--Top Row of Buttons-->
     <LinearLayout

@@ -1,21 +1,22 @@
 package edu.uw.leeds.peregrine;
 
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,7 +25,10 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -94,20 +98,26 @@ public class MainActivity extends AppCompatActivity
 
         // TODO: Populate upcoming and due listview.
         ListView upcomingListView = (ListView) findViewById(R.id.upcoming_list_view);
+        List<ToDoItem> upcomingItems = new ArrayList<ToDoItem>();
         List<InspectionContent.InspectionItem> InspectionData = InspectionContent.ITEMS;
         List<PilotPhysicalContent.PilotPhysicalItem> PhysicalData = PilotPhysicalContent.ITEMS;
 
-        List<String> myStringArray = new ArrayList<>();
-        myStringArray.add("First");
-        myStringArray.add("Second");
-        myStringArray.add("Third");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.upcoming_and_due_list_content,
-                R.id.upcoming_item_title,
-                myStringArray);
-        upcomingListView.setAdapter(adapter);
+        upcomingItems.addAll(InspectionData);
+        upcomingItems.addAll(PhysicalData);
 
-//        upcomingListView.setAdapter(upcomingAdapter);
+        UpcomingAdapter upcomingAdapter = new UpcomingAdapter(this, upcomingItems);
+        upcomingListView.setAdapter(upcomingAdapter);
+
+//        List<String> myStringArray = new ArrayList<>();
+//        myStringArray.add("First");
+//        myStringArray.add("Second");
+//        myStringArray.add("Third");
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                R.layout.upcoming_and_due_list_content,
+//                R.id.upcoming_item_title,
+//                myStringArray);
+//        upcomingListView.setAdapter(adapter);
+
 
 
         // Set up Navigation Drawer
@@ -195,6 +205,50 @@ public class MainActivity extends AppCompatActivity
 
         drawer.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+    }
+
+
+    /**
+     * Inspection items and Physical check items populated on the landing page.
+     */
+    public interface ToDoItem {
+        public String getId();
+
+        // Text to show in listview
+        public String getTitle();
+
+        public Date getDate();
+    }
+
+    private class UpcomingAdapter extends ArrayAdapter<ToDoItem> {
+        public UpcomingAdapter(Context context, List<ToDoItem> upcomingItems) {
+            super(context, 0, upcomingItems);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Get the data item for this position
+            ToDoItem item = getItem(position);
+
+            // Check if an existing view is being reused, otherwise inflate the view
+            if (convertView == null) {
+                convertView = LayoutInflater.from(
+                        getContext()).inflate(R.layout.upcoming_and_due_list_content,
+                        parent,
+                        false);
+            }
+
+            TextView upcomingItemTitle = (TextView) convertView.findViewById(R.id.upcoming_item_title);
+            TextView upcomingItemDate = (TextView) convertView.findViewById(R.id.upcoming_item_date);
+
+            DateFormat df = new SimpleDateFormat("MM.dd");
+            String dueDate = df.format(item.getDate());
+
+            upcomingItemTitle.setText(item.getTitle());
+            upcomingItemDate.setText("Due: " + dueDate);
+
+            return convertView;
+        }
     }
 }
 // TODO: Landing page
