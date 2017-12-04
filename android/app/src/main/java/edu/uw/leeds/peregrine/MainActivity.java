@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -64,10 +65,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // TODO: Move to where we need medical requirements.
-//        Intent i = new Intent(MainActivity.this, PilotPhysicalListActivity.class);
-//        startActivity(i);
-
         // TODO: Populate upcoming listview.
         // connect to Firebase
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
@@ -78,6 +75,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.bringToFront();
         setupDrawer();
         Log.v(TAG, "Created drawer");
+
+        // TODO: Get user shared preferences
+        // TODO: Set image
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.pilot_name);
+        TextView nav_email = (TextView)hView.findViewById(R.id.pilot_email);
+        nav_user.setText("Piloty McPilotFace");
+        nav_email.setText("pilot@plane.com");
     }
 
     @Override
