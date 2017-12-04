@@ -78,12 +78,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // TODO: Move to where we need medical requirements.
-//        Intent i = new Intent(MainActivity.this, PilotPhysicalListActivity.class);
-//        startActivity(i);
-
         // TODO: Populate upcoming listview.
-        // connect to Firebase
+        // Connect to Firebase
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
         this.mDatabaseRef = dbInstance.getReference();
 
@@ -134,10 +130,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.my_planes) {
             Intent i = new Intent(this, AircraftListActivity.class);
             startActivity(i);
-            Log.v(TAG, "planes*******************");
         } else if (id == R.id.prep_for_flight) {
-            //Not sure what intended activities are for this and maintenance_airworthiness
-            Intent i = new Intent(this, InspectionItemListActivity.class);
+            Intent i = new Intent(this, UpcomingFlight.class);
             startActivity(i);
         } else if (id == R.id.maintenance_airworthiness) {
             Intent i = new Intent(this, InspectionItemListActivity.class);
