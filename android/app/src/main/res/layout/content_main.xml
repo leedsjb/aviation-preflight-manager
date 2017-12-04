@@ -17,19 +17,54 @@
         android:id="@+id/logo"
         android:src="@mipmap/ic_launcher"/>
 
-    <!--Prepare for a flight-->
-    <Button
+    <!--Top Row of Buttons-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/prepare_button"
-        android:text="@string/prepare_button"/>
+        android:orientation="horizontal">
+        <!--Prepare for a flight-->
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/prepare_button"
+            android:drawableTop="@drawable/ic_playlist_add_check_black_24dp"
+            android:text="@string/prepare_button"/>
 
-    <!--Check status-->
-    <Button
+        <!--Check status-->
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/status_button"
+            android:drawableTop="@drawable/ic_build_black_24dp"
+            android:text="@string/check_status_button"/>
+    </LinearLayout>
+
+    <!--Second Row of Buttons-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/status_button"
-        android:text="@string/check_status_button"/>
+        android:orientation="horizontal">
+
+        <!-- View Planes-->
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/planes_button"
+            android:drawableTop="@drawable/ic_airplanemode_active_black_24dp"
+            android:text="@string/prepare_button"/>
+
+        <!--Medical Requirements-->
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/medical_button"
+            android:drawableTop="@drawable/ic_local_hospital_black_24dp"
+            android:text="@string/check_status_button"/>
+    </LinearLayout>
 
     <!--Upcoming and due-->
     <TextView
