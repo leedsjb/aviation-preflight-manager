@@ -16,11 +16,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,11 +88,29 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // TODO: Populate upcoming listview.
         // Connect to Firebase
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
         this.mDatabaseRef = dbInstance.getReference();
 
+        // TODO: Populate upcoming and due listview.
+        ListView upcomingListView = (ListView) findViewById(R.id.upcoming_list_view);
+        List<InspectionContent.InspectionItem> InspectionData = InspectionContent.ITEMS;
+        List<PilotPhysicalContent.PilotPhysicalItem> PhysicalData = PilotPhysicalContent.ITEMS;
+
+        List<String> myStringArray = new ArrayList<>();
+        myStringArray.add("First");
+        myStringArray.add("Second");
+        myStringArray.add("Third");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.upcoming_and_due_list_content,
+                R.id.upcoming_item_title,
+                myStringArray);
+        upcomingListView.setAdapter(adapter);
+
+//        upcomingListView.setAdapter(upcomingAdapter);
+
+
+        // Set up Navigation Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
