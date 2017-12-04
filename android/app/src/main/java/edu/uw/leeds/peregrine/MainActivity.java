@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         // TODO: Populate upcoming listview.
-        // connect to Firebase
+        // Connect to Firebase
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
         this.mDatabaseRef = dbInstance.getReference();
 
@@ -74,13 +74,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         setupDrawer();
-        Log.v(TAG, "Created drawer");
 
-        // TODO: Get user shared preferences
-        // TODO: Set image
+        // Set details of header in nav drawer.
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.pilot_name);
         TextView nav_email = (TextView)hView.findViewById(R.id.pilot_email);
+        // TODO: Get user shared preferences
+        // TODO: Set image
         nav_user.setText("Piloty McPilotFace");
         nav_email.setText("pilot@plane.com");
     }
@@ -116,10 +116,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.my_planes) {
             Intent i = new Intent(this, AircraftListActivity.class);
             startActivity(i);
-            Log.v(TAG, "planes*******************");
         } else if (id == R.id.prep_for_flight) {
-            //Not sure what intended activities are for this and maintenance_airworthiness
-            Intent i = new Intent(this, InspectionItemListActivity.class);
+            Intent i = new Intent(this, UpcomingFlight.class);
             startActivity(i);
         } else if (id == R.id.maintenance_airworthiness) {
             Intent i = new Intent(this, InspectionItemListActivity.class);
