@@ -2,8 +2,10 @@ package edu.uw.leeds.peregrine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,10 +44,12 @@ public class InspectionItemListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "add new inspection item", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -130,8 +134,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mIdView = (TextView) view.findViewById(R.id.inspection_item_title);
+                mContentView = (TextView) view.findViewById(R.id.inspection_item_dueDate);
             }
         }
     }
