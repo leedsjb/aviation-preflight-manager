@@ -80,6 +80,7 @@ public class AircraftContent {
 
     /**
      * Adds the user selected aircraft to the users list of aircraft
+     * stored in Firebase
      * @param aircraftToAdd the aircraft to add
      */
     protected static void addAircraftToUserProfile(AircraftItem aircraftToAdd){
