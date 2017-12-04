@@ -60,7 +60,25 @@ public class MainActivity extends AppCompatActivity
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
+                startActivity(i);
+            }
+        });
+
+        Button planesButton = (Button) findViewById(R.id.planes_button);
+        planesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AircraftListActivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button medicalButton = (Button) findViewById(R.id.medical_button);
+        medicalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, PilotPhysicalDetailActivity.class);
                 startActivity(i);
             }
         });

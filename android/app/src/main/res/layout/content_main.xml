@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:id="@+id/planes_button"
             android:drawableTop="@drawable/ic_airplanemode_active_black_24dp"
-            android:text="@string/prepare_button"/>
+            android:text="@string/planes_button"/>
 
         <!--Medical Requirements-->
         <Button
@@ -63,14 +63,16 @@
             android:layout_height="match_parent"
             android:id="@+id/medical_button"
             android:drawableTop="@drawable/ic_local_hospital_black_24dp"
-            android:text="@string/check_status_button"/>
+            android:text="@string/medical_button"/>
     </LinearLayout>
 
     <!--Upcoming and due-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textStyle="bold"
+        android:textSize="24sp"
         android:text="@string/upcoming"/>
 
     <!--TODO: Set up adapter for list view-->
