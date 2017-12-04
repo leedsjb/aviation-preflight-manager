@@ -1,5 +1,7 @@
 package edu.uw.leeds.peregrine;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +17,8 @@ public class PilotPhysicalContent {
      * An array of pilot physical items.
      */
     public static final List<PilotPhysicalItem> ITEMS = new ArrayList<PilotPhysicalItem>();
+
+    public static String TAG = "PilotPhysicalContent";
 
     /**
      * A map of pilot physical items, by ID.
