@@ -1,11 +1,18 @@
 package edu.uw.leeds.peregrine;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
     protected static DatabaseReference mDatabaseRef; // single DB ref for entire app
+    private static final String NOTIF_CHANNEL_ID = "edu.uw.leeds.peregrine.channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                notifyUser(new NotificationMessage("hello", "2 days", "high"));
+
                 Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
                 startActivity(i);
             }
@@ -108,23 +120,12 @@ public class MainActivity extends AppCompatActivity
         UpcomingAdapter upcomingAdapter = new UpcomingAdapter(this, upcomingItems);
         upcomingListView.setAdapter(upcomingAdapter);
 
-//        List<String> myStringArray = new ArrayList<>();
-//        myStringArray.add("First");
-//        myStringArray.add("Second");
-//        myStringArray.add("Third");
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                R.layout.upcoming_and_due_list_content,
-//                R.id.upcoming_item_title,
-//                myStringArray);
-//        upcomingListView.setAdapter(adapter);
-
-
-
         // Set up Navigation Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         setupDrawer();
+        Log.v(TAG, "Created drawer");
 
         // Set details of header in nav drawer.
         View hView =  navigationView.getHeaderView(0);
@@ -207,7 +208,6 @@ public class MainActivity extends AppCompatActivity
         drawerToggle.syncState();
     }
 
-
     /**
      * Inspection items and Physical check items populated on the landing page.
      */
@@ -250,6 +250,47 @@ public class MainActivity extends AppCompatActivity
             return convertView;
         }
     }
+    public void notifyUser(NotificationMessage nm) {
+        // Specify where tapping this notification will navigate user
+        Intent notifyIntent = new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notifyIntent, 0);
+
+        // Construct the Big View
+        // View Message
+        Intent notifyViewIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                notifyViewIntent.setAction(CommonConstants.ACTION_DISMISS) // to dismiss on press
+        PendingIntent pendIntView = PendingIntent.getActivity(getApplicationContext(), 0, notifyViewIntent, 0);
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //Oreo
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+            Notification.Builder builder = new Notification.Builder(getApplicationContext(), NOTIF_CHANNEL_ID)
+                    .setContentTitle(nm.message)
+                    .setContentText(nm.timeline)
+                    .setSmallIcon(R.drawable.ic_menu_camera)//TODO change
+                    .setContentIntent(pendingIntent) // set destination when notification is tapped
+                    .addAction(0, "View", pendIntView);
+
+            NotificationChannel channel = new NotificationChannel(NOTIF_CHANNEL_ID, "General Notification", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Test");
+            channel.enableLights(true);
+            notificationManager.createNotificationChannel(channel);
+            notificationManager.notify(1, builder.build());
+        } else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+                    .setContentTitle(nm.message)
+                    .setContentText(nm.timeline)
+                    .setSmallIcon(R.drawable.ic_menu_camera) //TODO change
+                    .setContentIntent(pendingIntent)
+                    .addAction(0, "View", pendIntView);
+
+            // Post Notification
+            notificationManager.notify(1, builder.build()); // Post notification
+
+        }
+    }
 }
 // TODO: Landing page
 // TODO: Nav drawer @Jessica
@@ -258,3 +299,4 @@ public class MainActivity extends AppCompatActivity
 // TODO: Pilot physical requirements Master/Detail @Ishan
 // TODO: Aircraft Airworthiness Master/Detail @Ishan
 // TODO: Aircraft Master/Detail @Ishan
+//aircraft related todos
