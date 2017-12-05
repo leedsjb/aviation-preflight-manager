@@ -101,7 +101,7 @@ public class PilotPhysicalContent {
     protected static void addPilotItemToProfile(PilotPhysicalItem itemToAdd){
 
         String key = pilotDbReference.push().getKey(); // get key for new PilotPhysicalItem
-
+        itemToAdd.id = "" + key.hashCode();
         Map<String, Object> physicalItemValues = itemToAdd.toMap(); // marshal object to map
 
         // create empty hashmap to contain updates to Firebase
