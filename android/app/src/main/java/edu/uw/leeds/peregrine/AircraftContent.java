@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by saksi on 11/28/17.
- *
- * Store all the content for aircrafts
+ * @author saksi
+ * Created: 11/28/17
+ * Modified: 12/4/17
  */
 public class AircraftContent {
     /**
@@ -25,11 +25,15 @@ public class AircraftContent {
     /**
      * A map of aircraft items, by ID.
      */
-    public static final Map<String, AircraftItem> ITEM_MAP = new HashMap<String, AircraftItem>();
+    public static final Map<String, AircraftItem> ITEM_MAP = new HashMap<>();
 
     private static final String TAG = "AircraftContent";
 
     private static ChildEventListener childEventListener;
+
+    private static final String firebasePathString = "aircraft-list";
+
+    private static DatabaseReference aircraftDbReference = MainActivity.mDatabaseRef.child(firebasePathString);
 
     /**
      * Called by onCreate() in AircraftListActivity
@@ -37,7 +41,10 @@ public class AircraftContent {
      */
     protected static void initializeData(){
         // reference to the aircraft node in Firebase
-        DatabaseReference aircraftDbReference = MainActivity.mDatabaseRef.child("aircraft-list");
+
+        // clear data to prevent duplicates
+        ITEMS.clear(); // clear data from local ArrayList<>
+        ITEM_MAP.clear(); // clear data from local Map
 
         // listen for changes to the aircraft node and its children in Firebase
         ChildEventListener aircraftEventListener = new ChildEventListener() {
@@ -85,10 +92,7 @@ public class AircraftContent {
      */
     protected static void removeEvListener(){
         if(childEventListener != null){
-            DatabaseReference aircraftDbReference = MainActivity.mDatabaseRef.child("aircraft-list");
             aircraftDbReference.removeEventListener(childEventListener);
-            ITEMS.clear(); // clear data from local ArrayList<>
-            ITEM_MAP.clear(); // clear data from local Map
         }
     }
 
@@ -98,9 +102,6 @@ public class AircraftContent {
      */
     protected static void addAircraftToUserProfile(AircraftItem aircraftToAdd){
 
-        // reference to the aircraft node in Firebase
-        DatabaseReference aircraftDbReference = MainActivity.mDatabaseRef.child("aircraft-list");
-
         String key = aircraftDbReference.push().getKey(); // get key for new AircraftItem
 
         Map<String, Object> aircraftValues = aircraftToAdd.toMap(); // marshal object to map
@@ -108,7 +109,7 @@ public class AircraftContent {
         // create empty hashmap to contain updates to Firebase
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put("/aircraft-list/" + key, aircraftValues); // load Map
+        childUpdates.put("/" + firebasePathString +"/" + key, aircraftValues); // load Map
 
         MainActivity.mDatabaseRef.updateChildren(childUpdates); // send to Firebase
 
@@ -145,6 +146,7 @@ public class AircraftContent {
             this.fuelLevel = fuelLevel;
         }
 
+        // empty constructor for Firebase
         public AircraftItem(){};
 
         @Exclude
@@ -192,7 +194,7 @@ public class AircraftContent {
 
         @Exclude // excluded for FireBase purposes
         public String toString() {
-            return "";
+            return this.getPlaneName();
         }
     }
 }

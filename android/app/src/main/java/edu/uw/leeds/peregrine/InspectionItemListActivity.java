@@ -9,11 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +32,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private static RecyclerView.Adapter adapter;
+    private static final String TAG = "InspectionItmLstActvity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +61,41 @@ public class InspectionItemListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        // TODO remove this temporary way of creating a new object
+        // TODO and replace with an activity to do so
+        InspectionContent.InspectionItem sample = new InspectionContent.InspectionItem(
+                "98",
+                "Title",
+                "This is an inspection item",
+                "You are required to inspect this thing",
+                "These are you resources",
+                new Date(),
+                "Name of the image");
+
+        InspectionContent.initializeData();
+//        InspectionContent.addItem(sample);
+//        InspectionContent.addInspectionToUserProfile(sample);
+
         View recyclerView = findViewById(R.id.inspectionitem_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        InspectionContent.removeEvListener();
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, InspectionContent.ITEMS, mTwoPane));
+        this.adapter = new SimpleItemRecyclerViewAdapter(
+                this, InspectionContent.ITEMS, mTwoPane);
+        recyclerView.setAdapter(this.adapter);
+    }
+
+    // tell the adapter the underlying data has changed
+    static void notifyChange(int id){
+        adapter.notifyItemChanged(id);
     }
 
     public static class SimpleItemRecyclerViewAdapter

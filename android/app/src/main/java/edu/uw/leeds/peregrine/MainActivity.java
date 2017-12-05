@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(this, InspectionItemListActivity.class);
             startActivity(i);
         } else if (id == R.id.medical_requirements) {
-            Intent i = new Intent(this, PilotPhysicalDetailActivity.class);
+            Intent i = new Intent(this, PilotPhysicalListActivity.class);
             startActivity(i);
         }
 
