@@ -64,15 +64,15 @@ public class InspectionContent {
      *
      * One inspection task for aircraft airworthiness.
      */
-    public static class InspectionItem {
-        public final String id;
+    public static class InspectionItem implements MainActivity.ToDoItem{
+        public String id;
 
-        public final String title;
-        public final String description;
-        public final String requirements;
-        public final String resources;
-        public final Date dueNext;
-        public final String imageName;
+        public String title;
+        public String description;
+        public String requirements;
+        public String resources;
+        public Date dueNext;
+        public String imageName;
 
         public InspectionItem(String id,
                               String title,
@@ -94,6 +94,21 @@ public class InspectionContent {
 
         public String toString() {
             return title + " due at " + dueNext.toString();
+        }
+
+        @Override
+        public String getId() {
+            return this.id;
+        }
+
+        @Override
+        public String getTitle() {
+            return this.title;
+        }
+
+        @Override
+        public Date getDate() {
+            return this.dueNext;
         }
     }
 }
