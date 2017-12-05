@@ -34,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class UpcomingFlight extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(UpcomingFlight.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpcomingFlight.this, R.style.Theme_AppCompat_Dialog_Alert);
                 builder.setTitle("Add airport name");
 
                 // Set up the input
@@ -109,24 +110,28 @@ public class UpcomingFlight extends AppCompatActivity {
         @TargetApi(21)
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            AirportData uf = getItem(position);
+            AirportData airportData = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.upcoming_flight_content, parent, false);
             }
             // Lookup view for data population
-            ImageView icon = (ImageView) convertView.findViewById(R.id.uf_icon);
             TextView airport = (TextView) convertView.findViewById(R.id.uf_airport);
             TextView restriction = (TextView) convertView.findViewById(R.id.uf_restrictions);
-            ImageView urgency = (ImageView) convertView.findViewById(R.id.uf_urgency);
+            ImageView delay = (ImageView) convertView.findViewById(R.id.uf_urgency);
+            TextView delayInfo = (TextView) convertView.findViewById(R.id.uf_delay_info);
 
             // Populate the data into the template view using the data object
-//            if(uf!=null) {
-//                icon.setImage(uf.icon);
-            airport.setText(uf.name);
-            restriction.setText(uf.weather);
-//                restriction.setText(uf.restriction);
-//                urgency.setImage(uf.urgency);
+            airport.setText(airportData.name);
+            restriction.setText(airportData.weather);
+            //sets delay information based on whether airport is experiencing delays
+            if(airportData.delayed) {
+                delay.setImageResource(R.drawable.ic_warning_black_24dp);
+                delayInfo.setText(airportData.delayType + ": " + airportData.delayReason);
+            } else {
+                delay.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                delayInfo.setText("");
+            }
 //            }
             // Return the completed view to render on screen
             return convertView;

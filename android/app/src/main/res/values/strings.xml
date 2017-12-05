@@ -14,6 +14,9 @@
     <string name="title_pilotphysical_detail">PilotPhysical Detail</string>
     <string name="title_activity_nav_drawer">navDrawer</string>
 
+    <string name="airport_icon">Airport</string>
+    <string name="airport_delay">Airport Delay Status</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_upcoming_flight">UpcomingFlight</string>
