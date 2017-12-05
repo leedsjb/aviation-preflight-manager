@@ -67,8 +67,10 @@ public class AirportService extends IntentService {
                         try {
                             temp.code = resp.getString("IATA");
                             temp.name = resp.getString("name");
-                            temp.weather = resp.getJSONObject("weather").getString("weather");
-                            temp.delay = resp.getBoolean("delay");
+                            temp.weather = "Weather: " + resp.getJSONObject("weather").getString("weather");
+                            temp.delayed = resp.getBoolean("delay");
+                            temp.delayReason = resp.getJSONObject("status").getString("reason");
+                            temp.delayType = resp.getJSONObject("status").getString("type");
                         } catch (JSONException err) {
                             Log.v(TAG, "Error parsing JSON", err);
                             return;

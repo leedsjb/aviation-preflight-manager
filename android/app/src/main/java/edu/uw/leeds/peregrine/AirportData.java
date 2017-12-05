@@ -11,16 +11,20 @@ import android.os.Parcelable;
 public class AirportData implements Parcelable {
     public String code;
     public String name;
-    public boolean delay;
+    public boolean delayed;
     public String weather;
+    public String delayReason;
+    public String delayType;
 
     public AirportData(){}
 
     protected AirportData(Parcel in) {
         code = in.readString();
         name = in.readString();
-        delay = in.readByte() != 0x00;
+        delayed = in.readByte() != 0x00;
         weather = in.readString();
+        delayReason = in.readString();
+        delayType = in.readString();
     }
 
     @Override
@@ -32,8 +36,10 @@ public class AirportData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(code);
         dest.writeString(name);
-        dest.writeByte((byte) (delay ? 0x01 : 0x00));
+        dest.writeByte((byte) (delayed ? 0x01 : 0x00));
         dest.writeString(weather);
+        dest.writeString(delayReason);
+        dest.writeString(delayType);
     }
 
     @SuppressWarnings("unused")
