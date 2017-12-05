@@ -123,7 +123,8 @@ public class PilotPhysicalContent {
      *
      * One inspection task for pilot physical checks.
      */
-    public static class PilotPhysicalItem {
+
+    public static class PilotPhysicalItem implements MainActivity.ToDoItem{
         public String id;
         public String title;
         public String description;
@@ -141,7 +142,6 @@ public class PilotPhysicalContent {
                               String imageName) {
 
             this.id = id;
-
             this.title = title;
             this.description = description;
             this.requirements = requirements;
@@ -156,6 +156,16 @@ public class PilotPhysicalContent {
         @Exclude
         public String getId(){
             return this.id;
+        }
+
+        @Override
+        public String getTitle() {
+            return this.title;
+        }
+
+        @Override
+        public Date getDate() {
+            return this.dueNext;
         }
 
         @Exclude

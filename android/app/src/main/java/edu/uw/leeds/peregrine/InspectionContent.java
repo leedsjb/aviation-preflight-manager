@@ -115,7 +115,7 @@ public class InspectionContent {
      *
      * One inspection task for aircraft airworthiness.
      */
-    public static class InspectionItem {
+    public static class InspectionItem implements MainActivity.ToDoItem{
         public String id;
         public String title;
         public String description;
@@ -152,6 +152,11 @@ public class InspectionContent {
         @Exclude
         public String getTitle(){
             return this.title;
+        }
+
+        @Override
+        public Date getDate() {
+            return this.dueNext;
         }
 
         @Exclude
