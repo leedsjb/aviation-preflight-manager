@@ -1,18 +1,16 @@
 package edu.uw.leeds.peregrine;
 
-import android.app.ListActivity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
@@ -21,14 +19,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,16 +81,46 @@ public class MainActivity extends AppCompatActivity
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
+                startActivity(i);
+            }
+        });
+
+        Button planesButton = (Button) findViewById(R.id.planes_button);
+        planesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AircraftListActivity.class);
                 startActivity(i);
             }
         });
 
-        // TODO: Populate upcoming listview.
+        Button medicalButton = (Button) findViewById(R.id.medical_button);
+        medicalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, PilotPhysicalListActivity.class);
+                startActivity(i);
+            }
+        });
+
         // Connect to Firebase
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
         this.mDatabaseRef = dbInstance.getReference();
 
+        // TODO: Populate upcoming and due listview.
+        ListView upcomingListView = (ListView) findViewById(R.id.upcoming_list_view);
+        List<ToDoItem> upcomingItems = new ArrayList<ToDoItem>();
+        List<InspectionContent.InspectionItem> InspectionData = InspectionContent.ITEMS;
+        List<PilotPhysicalContent.PilotPhysicalItem> PhysicalData = PilotPhysicalContent.ITEMS;
+
+        upcomingItems.addAll(InspectionData);
+        upcomingItems.addAll(PhysicalData);
+
+        UpcomingAdapter upcomingAdapter = new UpcomingAdapter(this, upcomingItems);
+        upcomingListView.setAdapter(upcomingAdapter);
+
+        // Set up Navigation Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
@@ -137,7 +175,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(this, InspectionItemListActivity.class);
             startActivity(i);
         } else if (id == R.id.medical_requirements) {
-            Intent i = new Intent(this, PilotPhysicalDetailActivity.class);
+            Intent i = new Intent(this, PilotPhysicalListActivity.class);
             startActivity(i);
         }
 
@@ -170,6 +208,48 @@ public class MainActivity extends AppCompatActivity
         drawerToggle.syncState();
     }
 
+    /**
+     * Inspection items and Physical check items populated on the landing page.
+     */
+    public interface ToDoItem {
+        public String getId();
+
+        // Text to show in listview
+        public String getTitle();
+
+        public Date getDate();
+    }
+
+    private class UpcomingAdapter extends ArrayAdapter<ToDoItem> {
+        public UpcomingAdapter(Context context, List<ToDoItem> upcomingItems) {
+            super(context, 0, upcomingItems);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Get the data item for this position
+            ToDoItem item = getItem(position);
+
+            // Check if an existing view is being reused, otherwise inflate the view
+            if (convertView == null) {
+                convertView = LayoutInflater.from(
+                        getContext()).inflate(R.layout.upcoming_and_due_list_content,
+                        parent,
+                        false);
+            }
+
+            TextView upcomingItemTitle = (TextView) convertView.findViewById(R.id.upcoming_item_title);
+            TextView upcomingItemDate = (TextView) convertView.findViewById(R.id.upcoming_item_date);
+
+            DateFormat df = new SimpleDateFormat("MM.dd");
+            String dueDate = df.format(item.getDate());
+
+            upcomingItemTitle.setText(item.getTitle());
+            upcomingItemDate.setText("Due: " + dueDate);
+
+            return convertView;
+        }
+    }
     public void notifyUser(NotificationMessage nm) {
         // Specify where tapping this notification will navigate user
         Intent notifyIntent = new Intent(getApplicationContext(), MainActivity.class);
