@@ -71,6 +71,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                 final EditText inputTitle = new EditText(getApplicationContext());
                 inputTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputTitle.setHint("title");
                 layout.addView(inputTitle);
 
                 final TextView textDescription = new TextView(getApplicationContext());
@@ -79,6 +80,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                 final EditText inputDescription = new EditText(getApplicationContext());
                 inputDescription.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputDescription.setHint("description");
                 layout.addView(inputDescription);
 
                 final TextView textRequirements = new TextView(getApplicationContext());
@@ -87,6 +89,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                 final EditText inputRequirements = new EditText(getApplicationContext());
                 inputRequirements.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputRequirements.setHint("requirements");
                 layout.addView(inputRequirements);
 
                 final TextView textResources = new TextView(getApplicationContext());
@@ -95,6 +98,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                 final EditText inputResources = new EditText(getApplicationContext());
                 inputResources.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputResources.setHint("resources");
                 layout.addView(inputResources);
 
                 final TextView textNextDue = new TextView(getApplicationContext());
@@ -136,7 +140,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                     }
                 });
-                
+
                 builder.setView(layout);
                 builder.show();
             }
