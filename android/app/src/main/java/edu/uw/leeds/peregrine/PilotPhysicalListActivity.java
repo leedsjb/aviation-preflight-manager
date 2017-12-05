@@ -9,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +33,10 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+
+    private static RecyclerView.Adapter adapter;
+
+    private static final String TAG = "PilotPhyListAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +67,43 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.pilotphysical_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+        // TODO remove this temporary way of creating a new object
+        // TODO and replace with an activity to do so
+        PilotPhysicalContent.PilotPhysicalItem sample = new PilotPhysicalContent.PilotPhysicalItem(
+            "97",
+            "Pilot Physical",
+            "This is an inspection item",
+            "You are required to inspect this thing",
+            "These are you resources",
+            new Date(),
+            "Name of the image");
+
+//        PilotPhysicalContent.addItem(sample);
+//        PilotPhysicalContent.addPilotItemToProfile(sample);
+
+        // initialize pilot data for this user
+        PilotPhysicalContent.initializeData();
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        PilotPhysicalContent.removeEvListener();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, PilotPhysicalContent.ITEMS, mTwoPane));
+        adapter = new SimpleItemRecyclerViewAdapter(this, PilotPhysicalContent.ITEMS, mTwoPane);
+        recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * Tells adapter there has been a change
+     * @param id the id of the item that has changed
+     */
+    protected static void notifyChange(int id){
+        adapter.notifyItemChanged(id);
     }
 
     public static class SimpleItemRecyclerViewAdapter

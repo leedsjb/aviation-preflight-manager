@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class AircraftListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "AircraftListActivity onCreate() called");
         setContentView(R.layout.activity_aircraft_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,14 +65,8 @@ public class AircraftListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        // temp: create new aircraft for db, will eventually come from user selectable ac db
-//        AircraftContent.AircraftItem newAc = new AircraftContent.AircraftItem(
-//                "99", "DA-40", "40.179",
-//                "2003", "100", "full"
-//        );
-
         // add ac to user profile
-        // TODO implement activity for this method to be called from
+        // TODO implement activity for this method to be called from @ishan
 //        AircraftContent.addAircraftToUserProfile(newAc);
 
         // initialize ac data for this user
@@ -79,6 +75,13 @@ public class AircraftListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.aircraft_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.e(TAG, "pausing");
+        AircraftContent.removeEvListener();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

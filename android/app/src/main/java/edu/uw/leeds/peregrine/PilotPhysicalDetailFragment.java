@@ -35,8 +35,7 @@ public class PilotPhysicalDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PilotPhysicalDetailFragment() {
-    }
+    public PilotPhysicalDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
