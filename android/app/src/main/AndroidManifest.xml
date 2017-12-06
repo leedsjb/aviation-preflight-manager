@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.uw.leeds.peregrine">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".InspectionItemListActivity"
+            android:label="@string/title_inspectionitem_list"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".InspectionItemDetailActivity"
+            android:label="@string/title_inspectionitem_detail"
+            android:parentActivityName=".InspectionItemListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.InspectionItemListActivity" />
+        </activity>
+        <activity
+            android:name=".AircraftListActivity"
+            android:label="@string/title_aircraft_list"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".AircraftDetailActivity"
+            android:label="@string/title_aircraft_detail"
+            android:parentActivityName=".AircraftListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.AircraftListActivity" />
+        </activity>
+        <activity
+            android:name=".PilotPhysicalListActivity"
+            android:label="@string/title_pilotphysical_list"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".PilotPhysicalDetailActivity"
+            android:label="@string/title_pilotphysical_detail"
+            android:parentActivityName=".PilotPhysicalListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.PilotPhysicalListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ManufacturerListActivity"
+            android:label="@string/title_manufacturer_list"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.AircraftListActivity" />
+        </activity>
+        <activity
+            android:name=".ManufacturerDetailActivity"
+            android:label="@string/title_manufacturer_detail"
+            android:parentActivityName=".ManufacturerListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.ManufacturerListActivity" />
+        </activity>
+        <activity
+            android:name=".UpcomingFlight"
+            android:label="@string/title_activity_upcoming_flight"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <service
+            android:name=".ReminderMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".CurrentLocationService"/>
+        <service android:name=".WeatherService"/>
+        <service android:name=".AirportService"/>
+    </application>
+
+</manifest>

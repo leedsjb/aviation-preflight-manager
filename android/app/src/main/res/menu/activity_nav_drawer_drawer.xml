@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/my_planes"
+            android:icon="@drawable/ic_airplanemode_active_black_24dp"
+            android:title="My Planes" />
+        <item
+            android:id="@+id/prep_for_flight"
+            android:icon="@drawable/ic_playlist_add_check_black_24dp"
+            android:title="Prepare for Flight" />
+        <item
+            android:id="@+id/maintenance_airworthiness"
+            android:icon="@drawable/ic_build_black_24dp"
+            android:title="Maintenance and Airworthiness" />
+        <item
+            android:id="@+id/medical_requirements"
+            android:icon="@drawable/ic_local_hospital_black_24dp"
+            android:title="Medical Requirements" />
+        <item
+            android:id="@+id/sign_out"
+            android:icon="@android:drawable/ic_lock_lock"
+            android:title="@string/sign_out_button" />
+    </group>
+
+</menu>

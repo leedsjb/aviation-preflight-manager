@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Peregrine</string>
+    <string name="action_settings">Settings</string>
+
+    <!--MainActivity-->
+    <string name="snackbar_text_sign_in_confirm">Successfully signed in!</string>
+    <string name="snackbar_text_sign_in_error">Could not sign in.</string>
+    <string name="snackbar_text_sign_out_confirm">Successfully signed out.</string>
+
+    <!--Buttons-->
+    <string name="prepare_button">Prepare for a flight</string>
+    <string name="check_status_button">Check/Update airplane status</string>
+    <string name="planes_button">Planes</string>
+    <string name="medical_button">Pilot Physical Checks</string>
+    <string name="sign_out_button">Sign out</string>
+
+    <string name="upcoming">Upcoming and Due</string>
+
+    <string name="title_inspectionitem_list">Aircraft Inspections</string>
+    <string name="title_inspectionitem_detail">Inspection</string>
+    <string name="title_aircraft_list">Aircrafts</string>
+    <string name="title_aircraft_detail">Aircraft</string>
+    <string name="title_pilotphysical_list">Physical Checks</string>
+    <string name="title_pilotphysical_detail">Physical Check</string>
+    <string name="title_activity_nav_drawer">Navigation Drawer</string>
+
+    <string name="airport_icon">Airport</string>
+    <string name="airport_delay">Airport Delay Status</string>
+
+    <string name="header_description">Description:</string>
+    <string name="header_requirements">Requirements:</string>
+    <string name="header_resources">Resources:</string>
+    <string name="header_next_due">Next Due:</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="title_manufacturer_list">Manufacturers</string>
+    <string name="title_manufacturer_detail">Manufacturer Detail</string>
+
+    <string name="title_activity_upcoming_flight">Upcoming Flight</string>
+    <string name="current_weather">Current Weather:</string>
+
+    <!--Add Aircraft AlertDialog-->
+    <string name="title_add_aircraft_alert_dialog">Add Aircraft</string>
+    <string name="text_ac_model_label">Model</string>
+    <string name="text_ac_serial_number_label">Serial Number</string>
+    <string name="text_ac_year_manufactured_label">Year of Manufacture</string>
+    <string name="text_ac_tach_time_label">Tachometer Time</string>
+    <string name="text_ac_fuel_level_label">Current Fuel Level</string>
+    <string name="button_text_add_aircraft">ADD AIRCRAFT</string>
+    <string name="button_text_cancel">CANCEL</string>
+</resources>
