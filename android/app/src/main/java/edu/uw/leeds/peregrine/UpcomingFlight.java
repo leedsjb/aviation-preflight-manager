@@ -83,7 +83,7 @@ public class UpcomingFlight extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UpcomingFlight.this, R.style.Theme_AppCompat_Dialog_Alert);
-                builder.setTitle("Add airport name");
+                builder.setTitle("Input Airport IATA Code");
 
                 // Set up the input
                 final EditText input = new EditText(getApplicationContext());
