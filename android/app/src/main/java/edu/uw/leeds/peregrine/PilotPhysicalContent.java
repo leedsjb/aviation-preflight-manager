@@ -124,7 +124,7 @@ public class PilotPhysicalContent {
         DatabaseReference userReference = MainActivity.mDatabaseRef
                 .child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("pilot-inspections");
+                .child("pilot-items");
         childEventListener = userReference.addChildEventListener(pilotEventListener);
 
     }
@@ -156,7 +156,7 @@ public class PilotPhysicalContent {
 
         Map<String, Object> userUpdates = new HashMap<>();
 
-        userUpdates.put("/users/" + itemToAdd.owner + "/pilot-inspections/" + key, true);
+        userUpdates.put("/users/" + itemToAdd.owner + "/pilot-items/" + key, true);
 
         MainActivity.mDatabaseRef.updateChildren(childUpdates); // send to Firebase
         MainActivity.mDatabaseRef.updateChildren(userUpdates);

@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -131,7 +133,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
                                 inputRequirements.getText().toString(),
                                 inputResources.getText().toString(),
                                 dueDate,
-                                "none"
+                                "none",
+                                FirebaseAuth.getInstance().getCurrentUser().getUid()
                         );
                         InspectionContent.addInspectionToUserProfile(newInspectionItem);
 
@@ -156,17 +159,6 @@ public class InspectionItemListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
-        // TODO remove this temporary way of creating a new object
-        // TODO and replace with an activity to do so
-        InspectionContent.InspectionItem sample = new InspectionContent.InspectionItem(
-                "98",
-                "Title",
-                "This is an inspection item",
-                "You are required to inspect this thing",
-                "These are you resources",
-                new Date(),
-                "Name of the image");
 
         InspectionContent.initializeData();
 //        InspectionContent.addItem(sample);
