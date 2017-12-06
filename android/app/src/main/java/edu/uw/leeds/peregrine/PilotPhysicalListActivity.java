@@ -240,7 +240,10 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+            String date = format.format(new Date(mValues.get(position).dueNext));
+
+            holder.mDueDateView.setText(date);
             holder.mContentView.setText(mValues.get(position).title);
 
             holder.itemView.setTag(mValues.get(position));
@@ -253,13 +256,13 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
+            final TextView mDueDateView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mDueDateView = (TextView) view.findViewById(R.id.pilotphysical_list_duedate);
+                mContentView = (TextView) view.findViewById(R.id.pilotphysical_list_content);
             }
         }
     }

@@ -54,8 +54,18 @@ public class InspectionItemDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
 //                appBarLayout.setTitle(mItem.title);
-                appBarLayout.setTitle("Check Detail Fragment");
+                appBarLayout.setTitle(mItem.title);
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+//                appBarLayout.setTitle(mItem.title);
+            appBarLayout.setTitle(mItem.title);
         }
     }
 
