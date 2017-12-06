@@ -11,16 +11,22 @@
     <string name="sign_out_button">Sign out</string>
 
     <string name="upcoming">Upcoming and Due</string>
-    <string name="title_inspectionitem_list">InspectionItems</string>
-    <string name="title_inspectionitem_detail">InspectionItem Detail</string>
+
+    <string name="title_inspectionitem_list">Aircraft Inspections</string>
+    <string name="title_inspectionitem_detail">Inspection</string>
     <string name="title_aircraft_list">Aircrafts</string>
-    <string name="title_aircraft_detail">Aircraft Detail</string>
-    <string name="title_pilotphysical_list">PilotPhysicals</string>
-    <string name="title_pilotphysical_detail">PilotPhysical Detail</string>
-    <string name="title_activity_nav_drawer">navDrawer</string>
+    <string name="title_aircraft_detail">Aircraft</string>
+    <string name="title_pilotphysical_list">Physical Checks</string>
+    <string name="title_pilotphysical_detail">Physical Check</string>
+    <string name="title_activity_nav_drawer">Navigation Drawer</string>
 
     <string name="airport_icon">Airport</string>
     <string name="airport_delay">Airport Delay Status</string>
+
+    <string name="header_description">Description:</string>
+    <string name="header_requirements">Requirements:</string>
+    <string name="header_resources">Resources:</string>
+    <string name="header_next_due">Next Due:</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

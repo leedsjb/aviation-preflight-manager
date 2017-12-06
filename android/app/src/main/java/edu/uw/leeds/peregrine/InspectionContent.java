@@ -1,6 +1,8 @@
 package edu.uw.leeds.peregrine;
 
 import android.util.Log;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -9,8 +11,10 @@ import com.google.firebase.database.Exclude;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author saksi
@@ -33,6 +37,8 @@ public class InspectionContent {
     private static final String firebasePathString = "inspection-list";
     private static final DatabaseReference inspectionDbReference = MainActivity.mDatabaseRef.child(firebasePathString);
 
+    private static Set<String> listeningKeys = new HashSet<>();
+
     /**
      * TODO add JDoc
      */
@@ -46,31 +52,63 @@ public class InspectionContent {
         ChildEventListener inspectionEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildName) {
+                String inspectionKey = dataSnapshot.getKey();
+                if(!listeningKeys.contains(inspectionKey)) {
+                    listeningKeys.add(inspectionKey);
 
-                // un-marshal aircraft object from Firebase snapshot
-                InspectionItem inspectionItem = dataSnapshot.getValue(InspectionItem.class);
+                    ChildEventListener inspectionListener = new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            // un-marshal aircraft object from Firebase snapshot
+                            InspectionItem inspectionItem = dataSnapshot.getValue(InspectionItem.class);
 
-                addItem(inspectionItem); // add item from Firebase to local data store
+                            addItem(inspectionItem); // add item from Firebase to local data store
 
-                int intId = Integer.decode(inspectionItem.getId()); // convert String id to int
+                            int intId = Integer.decode(inspectionItem.getId()); // convert String id to int
 
-                InspectionItemListActivity.notifyChange(intId); // notify RecyclerView of data change
+                            InspectionItemListActivity.notifyChange(intId); // notify RecyclerView of data change
+                        }
 
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    };
+
+                    DatabaseReference inspectionReference =
+                            inspectionDbReference.child(inspectionKey);
+                    inspectionReference.addChildEventListener(inspectionListener);
+                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildChanged) {
-                Log.e(TAG, "child changed");
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildChanged){
+                Log.e(TAG,"child changed");
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "child removed");
+            public void onChildRemoved(DataSnapshot dataSnapshot){
+                Log.e(TAG,"child removed");
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildName) {
-                Log.e(TAG, "child moved");
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildName){
+                Log.e(TAG,"child moved");
             }
 
             @Override
@@ -79,8 +117,13 @@ public class InspectionContent {
             }
         };
 
+        DatabaseReference userReference = MainActivity.mDatabaseRef
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("inspections");
+
         // save event listener so it can be removed later
-        childEventListener = inspectionDbReference.addChildEventListener(inspectionEventListener);
+        childEventListener = userReference.addChildEventListener(inspectionEventListener);
     }
 
     /**
@@ -90,6 +133,7 @@ public class InspectionContent {
         if(childEventListener != null){
             inspectionDbReference.removeEventListener(childEventListener);
         }
+        listeningKeys.clear();
     }
 
     // called when the user adds an item that needs to be sent to firebase
@@ -98,9 +142,15 @@ public class InspectionContent {
         String key = inspectionDbReference.push().getKey();
         inspectionToAdd.id = "" + key.hashCode();
         Map<String, Object> inspectionValues = inspectionToAdd.toMap();
+
         Map<String,Object> childUpdates = new HashMap<>();
-        childUpdates.put("/"+firebasePathString+"/"+key, inspectionValues);
+        childUpdates.put("/"+firebasePathString+"/"+key + "/abstraction/", inspectionValues);
+
+        Map<String, Object> userUpdates = new HashMap<>();
+        userUpdates.put("/users/" + inspectionToAdd.owner + "/inspections/" + key, true);
+
         MainActivity.mDatabaseRef.updateChildren(childUpdates);
+        MainActivity.mDatabaseRef.updateChildren(userUpdates);
     }
 
     // called when a new item is added to firebase
@@ -122,17 +172,19 @@ public class InspectionContent {
         public String description;
         public String requirements;
         public String resources;
-        public Date dueNext;
+        public long dueNext;
         public String imageName;
+        public String owner;
 
         public InspectionItem(String id,
                               String title,
                               String description,
                               String requirements,
                               String resources,
-                              Date dueNext,
+                              long dueNext,
                               // TODO need to account for TachTime ( in decimal hours)
-                              String imageName) {
+                              String imageName,
+                              String owner) {
 
             this.id = id;
             this.title = title;
@@ -141,6 +193,7 @@ public class InspectionContent {
             this.resources = resources;
             this.dueNext = dueNext;
             this.imageName = imageName;
+            this.owner = owner;
         }
 
         public InspectionItem(){};
@@ -156,8 +209,24 @@ public class InspectionContent {
         }
 
         @Override
-        public Date getDate() {
+        public long getDate() {
             return this.dueNext;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+
+        public String getRequirements() {
+            return this.requirements;
+        }
+
+        public String getResources() {
+            return this.resources;
+        }
+
+        public String getOwner() {
+            return this.owner;
         }
 
         @Exclude
@@ -165,13 +234,17 @@ public class InspectionContent {
             HashMap<String, Object> result = new HashMap<>();
             result.put("id", this.id);
             result.put("title", this.title);
-            result.put("dueNextDateTime", this.dueNext);
+            result.put("dueNext", this.dueNext);
+            result.put("description", this.description);
+            result.put("requirements", this.requirements);
+            result.put("resources", this.resources);
+            result.put("owner", this.owner);
             return result;
         }
 
         @Exclude
         public String toString() {
-            return this.title + " due at " + this.dueNext.toString();
+            return this.title + " due at " + this.dueNext;
         }
     }
 }

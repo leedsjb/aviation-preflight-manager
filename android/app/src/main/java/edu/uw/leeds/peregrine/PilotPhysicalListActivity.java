@@ -22,6 +22,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,6 +52,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v(TAG, "recreating data");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pilotphysical_list);
 
@@ -112,7 +116,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                 final EditText inputDueNext = new EditText(getApplicationContext());
                 inputDueNext.setInputType(InputType.TYPE_CLASS_DATETIME);
-                inputDueNext.setHint("MM-dd-YYYY");
+                inputDueNext.setHint("MM-dd-yyyy");
                 layout.addView(inputDueNext);
 
                 // Set up the buttons
@@ -132,8 +136,9 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
                                 inputDescription.getText().toString(),
                                 inputRequirements.getText().toString(),
                                 inputResources.getText().toString(),
-                                dueDate,
-                                "none"
+                                dueDate.getTime(),
+                                "none",
+                                FirebaseAuth.getInstance().getCurrentUser().getUid()
                         );
                         PilotPhysicalContent.addPilotItemToProfile(newPilotItem);
 
@@ -162,17 +167,6 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.pilotphysical_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
-
-        // TODO remove this temporary way of creating a new object
-        // TODO and replace with an activity to do so
-        PilotPhysicalContent.PilotPhysicalItem sample = new PilotPhysicalContent.PilotPhysicalItem(
-            "97",
-            "Pilot Physical",
-            "This is an inspection item",
-            "You are required to inspect this thing",
-            "These are you resources",
-            new Date(),
-            "Name of the image");
 
 //        PilotPhysicalContent.addItem(sample);
 //        PilotPhysicalContent.addPilotItemToProfile(sample);
@@ -246,7 +240,10 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+            String date = format.format(new Date(mValues.get(position).dueNext));
+
+            holder.mDueDateView.setText(date);
             holder.mContentView.setText(mValues.get(position).title);
 
             holder.itemView.setTag(mValues.get(position));
@@ -259,13 +256,13 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
+            final TextView mDueDateView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mDueDateView = (TextView) view.findViewById(R.id.pilotphysical_list_duedate);
+                mContentView = (TextView) view.findViewById(R.id.pilotphysical_list_content);
             }
         }
     }
