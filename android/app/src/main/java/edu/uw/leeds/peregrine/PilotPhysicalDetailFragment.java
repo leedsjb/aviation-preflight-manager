@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class PilotPhysicalDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String TAG = "PilotPhysicalDetail";
 
     /**
      * The dummy content this fragment is presenting.
@@ -33,8 +35,7 @@ public class PilotPhysicalDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PilotPhysicalDetailFragment() {
-    }
+    public PilotPhysicalDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,9 @@ public class PilotPhysicalDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mItem = PilotPhysicalContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            Log.v(TAG, "The key is " + getArguments().getString(ARG_ITEM_ID));
 
+            Log.v(TAG, "mItem is: " + mItem);
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {

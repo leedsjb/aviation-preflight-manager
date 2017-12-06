@@ -3,8 +3,12 @@
     <string name="action_settings">Settings</string>
 
     <!--MainActivity-->
+    <!--Buttons-->
     <string name="prepare_button">Prepare for a flight</string>
     <string name="check_status_button">Check/Update airplane status</string>
+    <string name="planes_button">Planes</string>
+    <string name="medical_button">Pilot Physical Checks</string>
+
     <string name="upcoming">Upcoming and Due</string>
     <string name="title_inspectionitem_list">InspectionItems</string>
     <string name="title_inspectionitem_detail">InspectionItem Detail</string>
@@ -14,9 +18,15 @@
     <string name="title_pilotphysical_detail">PilotPhysical Detail</string>
     <string name="title_activity_nav_drawer">navDrawer</string>
 
+    <string name="airport_icon">Airport</string>
+    <string name="airport_delay">Airport Delay Status</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="title_manufacturer_list">Manufacturers</string>
     <string name="title_manufacturer_detail">Manufacturer Detail</string>
 
+    <string name="title_activity_upcoming_flight">Upcoming Flight</string>
+    <string name="current_weather">Current Weather:</string>
 </resources>

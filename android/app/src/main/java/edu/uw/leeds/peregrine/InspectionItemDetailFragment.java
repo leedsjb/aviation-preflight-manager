@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class InspectionItemDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private InspectionContent.InspectionItem mItem;
+    private static final String TAG = "InspectionItmDtlFrgmnt";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,12 +44,14 @@ public class InspectionItemDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = InspectionContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            String key = getArguments().getString(ARG_ITEM_ID);
+            mItem = InspectionContent.ITEM_MAP.get(key);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.title);
+//                appBarLayout.setTitle(mItem.title);
+                appBarLayout.setTitle("Check Detail Fragment");
             }
         }
     }
