@@ -132,7 +132,7 @@ public class InspectionItemListActivity extends AppCompatActivity {
                                 inputDescription.getText().toString(),
                                 inputRequirements.getText().toString(),
                                 inputResources.getText().toString(),
-                                dueDate,
+                                dueDate.getTime(),
                                 "none",
                                 FirebaseAuth.getInstance().getCurrentUser().getUid()
                         );

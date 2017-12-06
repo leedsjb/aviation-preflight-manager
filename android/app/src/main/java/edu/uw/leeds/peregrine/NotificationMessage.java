@@ -49,7 +49,7 @@ public class NotificationMessage extends IntentService {
 
             Notification.Builder builder = new Notification.Builder(getApplicationContext(), NOTIF_CHANNEL_ID)
                     .setContentTitle(ii.title)
-                    .setContentText((CharSequence) ii.dueNext)
+                    .setContentText((CharSequence) (ii.dueNext + ""))
                     .setSmallIcon(R.drawable.ic_menu_camera)//TODO change
                     .setContentIntent(pendingIntent) // set destination when notification is tapped
                     .addAction(R.drawable.ic_menu_camera, "View", openPendIntView);
@@ -62,7 +62,7 @@ public class NotificationMessage extends IntentService {
         } else {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                     .setContentTitle(ii.title)
-                    .setContentText((CharSequence) ii.dueNext)
+                    .setContentText((CharSequence) (ii.dueNext + ""))
                     .setSmallIcon(R.drawable.ic_menu_camera) //TODO change
                     .setContentIntent(pendingIntent)
                     .addAction(0, "View", openPendIntView);

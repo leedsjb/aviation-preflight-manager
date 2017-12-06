@@ -172,7 +172,7 @@ public class InspectionContent {
         public String description;
         public String requirements;
         public String resources;
-        public Date dueNext;
+        public long dueNext;
         public String imageName;
         public String owner;
 
@@ -181,7 +181,7 @@ public class InspectionContent {
                               String description,
                               String requirements,
                               String resources,
-                              Date dueNext,
+                              long dueNext,
                               // TODO need to account for TachTime ( in decimal hours)
                               String imageName,
                               String owner) {
@@ -209,8 +209,20 @@ public class InspectionContent {
         }
 
         @Override
-        public Date getDate() {
+        public long getDate() {
             return this.dueNext;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+
+        public String getRequirements() {
+            return this.requirements;
+        }
+
+        public String getResources() {
+            return this.resources;
         }
 
         public String getOwner() {
@@ -222,14 +234,17 @@ public class InspectionContent {
             HashMap<String, Object> result = new HashMap<>();
             result.put("id", this.id);
             result.put("title", this.title);
-            result.put("dueNextDateTime", this.dueNext);
+            result.put("dueNext", this.dueNext);
+            result.put("description", this.description);
+            result.put("requirements", this.requirements);
+            result.put("resources", this.resources);
             result.put("owner", this.owner);
             return result;
         }
 
         @Exclude
         public String toString() {
-            return this.title + " due at " + this.dueNext.toString();
+            return this.title + " due at " + this.dueNext;
         }
     }
 }

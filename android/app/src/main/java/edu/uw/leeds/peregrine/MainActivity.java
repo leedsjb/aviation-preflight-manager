@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity
         // Text to show in listview
         public String getTitle();
 
-        public Date getDate();
+        public long getDate();
     }
 
     private class UpcomingAdapter extends ArrayAdapter<ToDoItem> {
@@ -241,7 +241,8 @@ public class MainActivity extends AppCompatActivity
             TextView upcomingItemDate = (TextView) convertView.findViewById(R.id.upcoming_item_date);
 
             DateFormat df = new SimpleDateFormat("MM.dd");
-            String dueDate = df.format(item.getDate());
+
+            String dueDate = df.format(new Date(item.getDate()));
 
             upcomingItemTitle.setText(item.getTitle());
             upcomingItemDate.setText("Due: " + dueDate);

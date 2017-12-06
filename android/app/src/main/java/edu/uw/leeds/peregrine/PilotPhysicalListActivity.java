@@ -116,7 +116,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
                 final EditText inputDueNext = new EditText(getApplicationContext());
                 inputDueNext.setInputType(InputType.TYPE_CLASS_DATETIME);
-                inputDueNext.setHint("MM-dd-YYYY");
+                inputDueNext.setHint("MM-dd-yyyy");
                 layout.addView(inputDueNext);
 
                 // Set up the buttons
@@ -136,7 +136,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
                                 inputDescription.getText().toString(),
                                 inputRequirements.getText().toString(),
                                 inputResources.getText().toString(),
-                                dueDate,
+                                dueDate.getTime(),
                                 "none",
                                 FirebaseAuth.getInstance().getCurrentUser().getUid()
                         );

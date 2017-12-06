@@ -166,6 +166,7 @@ public class PilotPhysicalContent {
     static void addItem(PilotPhysicalItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
+        Log.v(TAG, new Date(item.getDate()).toString());
     }
 
     /**
@@ -180,7 +181,7 @@ public class PilotPhysicalContent {
         public String description;
         public String requirements;
         public String resources;
-        public Date dueNext;
+        public long dueNext;
         public String imageName;
         public String owner;
 
@@ -189,7 +190,7 @@ public class PilotPhysicalContent {
                               String description,
                               String requirements,
                               String resources,
-                              Date dueNext,
+                              long dueNext,
                               String imageName,
                                  String owner) {
             this.id = id;
@@ -216,7 +217,7 @@ public class PilotPhysicalContent {
         }
 
         @Override
-        public Date getDate() {
+        public long getDate() {
             return this.dueNext;
         }
 
@@ -226,20 +227,30 @@ public class PilotPhysicalContent {
             return this.owner;
         }
 
+        public String getRequirements() {
+            return this.requirements;
+        }
+
+        public String getResources() {
+            return this.resources;
+        }
+
         @Exclude
         public Map<String, Object> toMap(){
             HashMap<String, Object> result = new HashMap<>();
             result.put("id", this.id);
             result.put("title", this.title);
-            result.put("date", this.dueNext);
+            result.put("dueNext", this.dueNext);
             result.put("description", this.description);
+            result.put("requirements", this.requirements);
+            result.put("resources", this.resources);
             result.put("owner", this.owner);
             return result;
         }
 
         @Exclude
         public String toString() {
-            return title + " due at " + dueNext.toString();
+            return title + " due at " + dueNext;
         }
     }
 }

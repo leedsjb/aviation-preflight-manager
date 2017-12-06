@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.uw.leeds.peregrine.dummy.DummyContent;
 
 /**
@@ -64,7 +67,13 @@ public class PilotPhysicalDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+            String date = format.format(new Date(mItem.dueNext));
+
             ((TextView) rootView.findViewById(R.id.pilotphysical_detail)).setText(mItem.description);
+            ((TextView) rootView.findViewById(R.id.pilotphysical_requirements)).setText(mItem.requirements);
+            ((TextView) rootView.findViewById(R.id.pilotphysical_resources)).setText(mItem.resources);
+            ((TextView) rootView.findViewById(R.id.pilotphysical_duenext)).setText(date);
         }
 
         return rootView;
