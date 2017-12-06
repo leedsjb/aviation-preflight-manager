@@ -3,7 +3,7 @@
     package="edu.uw.leeds.peregrine">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -64,12 +64,18 @@
         <activity
             android:name=".UpcomingFlight"
             android:label="@string/title_activity_upcoming_flight"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
-
+        <service
+            android:name=".ReminderMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <service android:name=".CurrentLocationService"></service>
         <service android:name=".WeatherService"></service>
         <service android:name=".AirportService"></service>
+
     </application>
 
 </manifest>

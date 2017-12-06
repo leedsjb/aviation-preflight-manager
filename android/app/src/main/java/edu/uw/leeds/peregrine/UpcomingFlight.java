@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,10 +50,12 @@ public class UpcomingFlight extends AppCompatActivity {
 
     private static final int FINE_LOCATION_REQUEST_CODE = 199;
     private static final String TAG = "UpcomingFlightActivity";
+    private static final String SAVED_AIRPORT_DATA_KEY = "saved_airport_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_upcoming_flight);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +77,8 @@ public class UpcomingFlight extends AppCompatActivity {
         bm.registerReceiver(mBroadcastReceiver, filter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +104,29 @@ public class UpcomingFlight extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        Log.v(TAG, "saving data");
+        savedInstanceState.putParcelableArrayList(SAVED_AIRPORT_DATA_KEY, mData);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.v(TAG, "restoring");
+        if(savedInstanceState != null) {
+            Log.v(TAG, "have data");
+            ArrayList<AirportData> stored_airports = savedInstanceState.getParcelableArrayList(SAVED_AIRPORT_DATA_KEY);
+            if (stored_airports != null) {
+                Log.v(TAG, "adding");
+                mData.addAll(stored_airports);
+            }
+            myAdapter.notifyDataSetChanged();
+        }
+
     }
 
     public static class MyAdapter extends ArrayAdapter<AirportData> {
