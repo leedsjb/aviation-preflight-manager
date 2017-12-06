@@ -52,22 +52,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        // Onclick Listeners
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-//                notifyUser(new NotificationMessage("hello", "2 days", "high"));
-
-                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
-                startActivity(i);
-            }
-        });
-
-
         Button prepareButton = (Button) findViewById(R.id.prepare_button);
         prepareButton.setOnClickListener(new View.OnClickListener() {
             @Override
