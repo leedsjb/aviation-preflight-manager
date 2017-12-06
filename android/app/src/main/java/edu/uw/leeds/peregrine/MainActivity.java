@@ -124,14 +124,7 @@ public class MainActivity extends AppCompatActivity
         setupDrawer();
         Log.v(TAG, "Created drawer");
 
-        // Set details of header in nav drawer.
-        View hView =  navigationView.getHeaderView(0);
-        TextView nav_user = (TextView)hView.findViewById(R.id.pilot_name);
-        TextView nav_email = (TextView)hView.findViewById(R.id.pilot_email);
-        // TODO: Get user shared preferences
-        // TODO: Set image
-        nav_user.setText("Piloty McPilotFace");
-        nav_email.setText("pilot@plane.com");
+
     }
 
     @Override
@@ -251,48 +244,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-//    public void notifyUser(NotificationMessage nm) {
-//        // Specify where tapping this notification will navigate user
-//        Intent notifyIntent = new Intent(getApplicationContext(), MainActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notifyIntent, 0);
-//
-//        // Construct the Big View
-//        // View Message
-//        Intent notifyViewIntent = new Intent(getApplicationContext(), MainActivity.class);
-////                notifyViewIntent.setAction(CommonConstants.ACTION_DISMISS) // to dismiss on press
-//        PendingIntent pendIntView = PendingIntent.getActivity(getApplicationContext(), 0, notifyViewIntent, 0);
-//
-//        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        //Oreo
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//
-//            Notification.Builder builder = new Notification.Builder(getApplicationContext(), NOTIF_CHANNEL_ID)
-//                    .setContentTitle(nm.message)
-//                    .setContentText(nm.timeline)
-//                    .setSmallIcon(R.drawable.ic_menu_camera)//TODO change
-//                    .setContentIntent(pendingIntent) // set destination when notification is tapped
-//                    .addAction(0, "View", pendIntView);
-//
-//            NotificationChannel channel = new NotificationChannel(NOTIF_CHANNEL_ID, "General Notification", NotificationManager.IMPORTANCE_HIGH);
-//            channel.setDescription("Test");
-//            channel.enableLights(true);
-//            notificationManager.createNotificationChannel(channel);
-//            notificationManager.notify(1, builder.build());
-//        } else {
-//            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-//                    .setContentTitle(nm.message)
-//                    .setContentText(nm.timeline)
-//                    .setSmallIcon(R.drawable.ic_menu_camera) //TODO change
-//                    .setContentIntent(pendingIntent)
-//                    .addAction(0, "View", pendIntView);
-//
-//            // Post Notification
-//            notificationManager.notify(1, builder.build()); // Post notification
-//
-//        }
-//    }
-
     // Attempt to sign in if the user is not already signed in.
     private void signIn() {
         // Check if user is authenticated.
@@ -341,7 +292,6 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.v(TAG, "Signed in ayayayayaooooo");
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
@@ -355,6 +305,15 @@ public class MainActivity extends AppCompatActivity
                         .make(parentView, "Successfully signed in!", Snackbar.LENGTH_LONG);
 
                 snackbar.show();
+
+                // Set details of header in nav drawer.
+                NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+                View hView =  navigationView.getHeaderView(0);
+                TextView nav_user = hView.findViewById(R.id.pilot_name);
+                TextView nav_email = hView.findViewById(R.id.pilot_email);
+
+                nav_user.setText(user.getDisplayName());
+                nav_email.setText(user.getEmail());
 
             } else {
                 View parentView = findViewById(R.id.drawer_layout);
