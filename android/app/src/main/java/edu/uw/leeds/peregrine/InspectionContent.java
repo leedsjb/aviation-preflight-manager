@@ -96,6 +96,7 @@ public class InspectionContent {
     static void addInspectionToUserProfile(InspectionItem inspectionToAdd){
 
         String key = inspectionDbReference.push().getKey();
+        inspectionToAdd.id = "" + key.hashCode();
         Map<String, Object> inspectionValues = inspectionToAdd.toMap();
         Map<String,Object> childUpdates = new HashMap<>();
         childUpdates.put("/"+firebasePathString+"/"+key, inspectionValues);
