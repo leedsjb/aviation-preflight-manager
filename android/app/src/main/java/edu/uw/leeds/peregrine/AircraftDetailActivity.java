@@ -53,8 +53,8 @@ public class AircraftDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(AircraftDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(AircraftDetailFragment.ARG_ITEM_ID));
+            arguments.putInt(AircraftDetailFragment.ARG_ITEM_ID,
+                    getIntent().getIntExtra(AircraftDetailFragment.ARG_ITEM_ID,-1));
             AircraftDetailFragment fragment = new AircraftDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

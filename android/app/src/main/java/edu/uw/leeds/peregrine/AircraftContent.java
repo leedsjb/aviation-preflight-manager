@@ -56,9 +56,7 @@ public class AircraftContent {
 
                 addItem(acItem); // add item from Firebase to local data store
 
-                int intId = acItem.getId(); // convert String id to int TODO delete if not needed
-
-                AircraftListActivity.notifyChange(intId); // notify RecyclerView of data change
+                AircraftListActivity.notifyChange(acItem.id); // notify RecyclerView of data change
 
             }
 
