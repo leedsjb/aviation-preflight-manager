@@ -84,11 +84,22 @@ public class ManufacturerDetailFragment extends Fragment {
         }
     }
 
+
+    /**
+     * Lifecycle Callback
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // TODO this view obscures the RecyclerView preventing click events from firing
+        // TODO temporarily set its size to 0dp x 0dp to resolve issue
         View rootView = inflater.inflate(R.layout.manufacturer_detail, container, false);
-        
+
         // setup volley
         volleySetup(mItem.manufacturerCode);
         return rootView;
@@ -107,6 +118,9 @@ public class ManufacturerDetailFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Custom adapter for Aircraft Type data
+     */
     public static class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>{
 
@@ -117,9 +131,15 @@ public class ManufacturerDetailFragment extends Fragment {
             public void onClick(View view) {
                 Log.e(TAG, "clicked!");
                 AircraftDatabase.AircraftManufacturer.AircraftType item = (AircraftDatabase.AircraftManufacturer.AircraftType) view.getTag();
+                Log.e(TAG, "model name: " + item.modelName);
             }
         };
 
+        /**
+         * Constructor
+         * @param items
+         * @param twoPane
+         */
         SimpleItemRecyclerViewAdapter(List<AircraftDatabase.AircraftManufacturer.AircraftType> items,
                                       boolean twoPane){
             this.mValues = items;
@@ -133,13 +153,19 @@ public class ManufacturerDetailFragment extends Fragment {
             return new ViewHolder(view);
         }
 
+        /**
+         * Called by RecyclerView to display the data at a specified position. Updates the contents
+         * of the itemView to reflect the item at the given position
+         * @param holder
+         * @param position
+         */
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position){
             AircraftDatabase.AircraftManufacturer.AircraftType type = mValues.get(position);
             holder.mTypeName.setText(type.modelName);
             holder.mTypeDescription.setText("change");
             holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
+            holder.itemView.setOnClickListener(this.mOnClickListener);
         }
 
         @Override
