@@ -32,10 +32,10 @@ public class PilotPhysicalContent {
 
     private static ChildEventListener childEventListener;
 
-    private static final String firebasePathString = "pilot-items-list";
+    private static final String firebasePilotPathString = "pilot-items-list";
 
     private static final DatabaseReference pilotDbReference =
-            MainActivity.mDatabaseRef.child(firebasePathString);
+            MainActivity.mDatabaseRef.child(firebasePilotPathString);
 
     // TODO write JDoc
     static void initializeData(){
@@ -107,9 +107,14 @@ public class PilotPhysicalContent {
         // create empty hashmap to contain updates to Firebase
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put("/" + firebasePathString + "/" + key, physicalItemValues); // load Map
+        childUpdates.put("/" + firebasePilotPathString + "/" + key, physicalItemValues); // load Map
+
+        Map<String, Object> userUpdates = new HashMap<>();
+
+        userUpdates.put("/users/" + itemToAdd.owner + "/pilot-inspections/" + key, true);
 
         MainActivity.mDatabaseRef.updateChildren(childUpdates); // send to Firebase
+        MainActivity.mDatabaseRef.updateChildren(userUpdates);
 
     }
 
@@ -132,6 +137,7 @@ public class PilotPhysicalContent {
         public String resources;
         public Date dueNext;
         public String imageName;
+        public String owner;
 
         public PilotPhysicalItem(String id,
                               String title,
@@ -139,8 +145,8 @@ public class PilotPhysicalContent {
                               String requirements,
                               String resources,
                               Date dueNext,
-                              String imageName) {
-
+                              String imageName,
+                                 String owner) {
             this.id = id;
             this.title = title;
             this.description = description;
@@ -148,6 +154,7 @@ public class PilotPhysicalContent {
             this.resources = resources;
             this.dueNext = dueNext;
             this.imageName = imageName;
+            this.owner = owner;
         }
 
         // empty constructor for Firebase
@@ -168,11 +175,20 @@ public class PilotPhysicalContent {
             return this.dueNext;
         }
 
+        public String getDescription() { return this.description; }
+
+        public String getOwner() {
+            return this.owner;
+        }
+
         @Exclude
         public Map<String, Object> toMap(){
             HashMap<String, Object> result = new HashMap<>();
             result.put("id", this.id);
             result.put("title", this.title);
+            result.put("date", this.dueNext);
+            result.put("description", this.description);
+            result.put("owner", this.owner);
             return result;
         }
 

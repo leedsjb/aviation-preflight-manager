@@ -22,6 +22,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -133,7 +136,8 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
                                 inputRequirements.getText().toString(),
                                 inputResources.getText().toString(),
                                 dueDate,
-                                "none"
+                                "none",
+                                FirebaseAuth.getInstance().getCurrentUser().getUid()
                         );
                         PilotPhysicalContent.addPilotItemToProfile(newPilotItem);
 
@@ -162,17 +166,6 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.pilotphysical_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
-
-        // TODO remove this temporary way of creating a new object
-        // TODO and replace with an activity to do so
-        PilotPhysicalContent.PilotPhysicalItem sample = new PilotPhysicalContent.PilotPhysicalItem(
-            "97",
-            "Pilot Physical",
-            "This is an inspection item",
-            "You are required to inspect this thing",
-            "These are you resources",
-            new Date(),
-            "Name of the image");
 
 //        PilotPhysicalContent.addItem(sample);
 //        PilotPhysicalContent.addPilotItemToProfile(sample);
