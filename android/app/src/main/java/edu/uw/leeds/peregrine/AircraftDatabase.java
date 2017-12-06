@@ -26,7 +26,7 @@ class AircraftDatabase {
     // Array of aircraft manufacturers from ICAO API
     protected static final List<AircraftManufacturer> MANUFACTURERS = new ArrayList<>();
 
-    // MAp of aircraft manufacturers from ICAO API by ID
+    // Map of aircraft manufacturers from ICAO API by ID
     protected static final Map<Integer, AircraftManufacturer> MANUFACTURER_MAP = new HashMap<>();
 
 
@@ -34,7 +34,7 @@ class AircraftDatabase {
      * An individual aircraft manufacturer.
      */
     protected static class AircraftManufacturer{
-        protected final Integer id; // id for RecyclerView
+        protected final int id; // id for RecyclerView
         protected final int numOfTypes; // how many types manufacturer owns
         protected final String manufacturerCode; // the name of the manufacturer in DOC8643 format
 
@@ -44,7 +44,7 @@ class AircraftDatabase {
          * @param numOfTypes
          * @param manufacturerCode
          */
-        public AircraftManufacturer(Integer id, int numOfTypes, String manufacturerCode){
+        public AircraftManufacturer(int id, int numOfTypes, String manufacturerCode){
             this.id = id;
             this.numOfTypes = numOfTypes;
             this.manufacturerCode = manufacturerCode;
@@ -63,6 +63,7 @@ class AircraftDatabase {
                     String manufacturerCode = manufacturer.getString("manufacturer_code");
                     AircraftManufacturer manufacturerObj = new AircraftManufacturer(i, numTypes, manufacturerCode);
                     MANUFACTURERS.add(manufacturerObj);
+                    MANUFACTURER_MAP.put(i, manufacturerObj);
                 }
             } catch (JSONException e){
                 Log.e(TAG, e.toString());

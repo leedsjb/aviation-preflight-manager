@@ -130,10 +130,10 @@ public class ManufacturerListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                AircraftDatabase.AircraftManufacturer item = (AircraftDatabase.AircraftManufacturer) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ManufacturerDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putInt(ManufacturerDetailFragment.ARG_ITEM_ID, item.id);
                     ManufacturerDetailFragment fragment = new ManufacturerDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -175,7 +175,7 @@ public class ManufacturerListActivity extends AppCompatActivity {
 
             AircraftDatabase.AircraftManufacturer manufacturer = mValues.get(position);
 
-            holder.mIdView.setText(manufacturer.id.toString());
+            holder.mIdView.setText("replace");
             holder.mContentView.setText(manufacturer.manufacturerCode);
 
             String stringNumOfTypes = Integer.toString(manufacturer.numOfTypes); // setText reqs String
