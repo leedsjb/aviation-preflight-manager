@@ -23,7 +23,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_upcoming_flight">UpcomingFlight</string>
+    <string name="title_activity_upcoming_flight">Upcoming Flight</string>
+    <string name="current_weather">Current Weather:</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

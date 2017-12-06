@@ -31,6 +31,7 @@ public class InspectionItemDetailActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_edit_black_24dp);
         fab.setImageDrawable(fabIcon);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
