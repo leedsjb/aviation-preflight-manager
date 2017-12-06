@@ -1,18 +1,11 @@
 package edu.uw.leeds.peregrine;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
@@ -38,7 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,20 +43,19 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     protected static DatabaseReference mDatabaseRef; // single DB ref for entire app
 
-
     private static final int RC_SIGN_IN = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         signIn();
 
         // Onclick Listeners
-        Button prepareButton = (Button) findViewById(R.id.prepare_button);
+        Button prepareButton = findViewById(R.id.prepare_button);
         prepareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +64,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button statusButton = (Button) findViewById(R.id.status_button);
+        Button statusButton = findViewById(R.id.status_button);
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +73,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button planesButton = (Button) findViewById(R.id.planes_button);
+        Button planesButton = findViewById(R.id.planes_button);
         planesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +82,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button medicalButton = (Button) findViewById(R.id.medical_button);
+        Button medicalButton = findViewById(R.id.medical_button);
         medicalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,9 +95,8 @@ public class MainActivity extends AppCompatActivity
         FirebaseDatabase dbInstance = FirebaseDatabase.getInstance();
         this.mDatabaseRef = dbInstance.getReference();
 
-        // TODO: Populate upcoming and due listview.
         ListView upcomingListView = (ListView) findViewById(R.id.upcoming_list_view);
-        List<ToDoItem> upcomingItems = new ArrayList<ToDoItem>();
+        List<ToDoItem> upcomingItems = new ArrayList<>();
         List<InspectionContent.InspectionItem> InspectionData = InspectionContent.ITEMS;
         List<PilotPhysicalContent.PilotPhysicalItem> PhysicalData = PilotPhysicalContent.ITEMS;
 
@@ -118,13 +107,10 @@ public class MainActivity extends AppCompatActivity
         upcomingListView.setAdapter(upcomingAdapter);
 
         // Set up Navigation Drawer
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        NavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         setupDrawer();
-        Log.v(TAG, "Created drawer");
-
-
     }
 
     @Override
@@ -151,7 +137,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.v(TAG, "Navigation Item selected");
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -171,13 +156,13 @@ public class MainActivity extends AppCompatActivity
             signOut();
         }
         item.setChecked(false);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void setupDrawer() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -204,12 +189,9 @@ public class MainActivity extends AppCompatActivity
      * Inspection items and Physical check items populated on the landing page.
      */
     public interface ToDoItem {
-        public String getId();
-
-        // Text to show in listview
-        public String getTitle();
-
-        public long getDate();
+        String getId();
+        String getTitle();// Text to show in listview
+        long getDate();
     }
 
     private class UpcomingAdapter extends ArrayAdapter<ToDoItem> {
@@ -264,8 +246,6 @@ public class MainActivity extends AppCompatActivity
 
     // Attempt to sign out if the user is already signed in.
     private void signOut() {
-        Log.v(TAG, "Attempting sign out");
-
         // Check if user is authenticated
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
             AuthUI.getInstance()
@@ -273,13 +253,9 @@ public class MainActivity extends AppCompatActivity
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         public void onComplete(@NonNull Task<Void> task) {
                             View parentView = findViewById(R.id.drawer_layout);
-
                             Snackbar snackbar = Snackbar
-                                    .make(parentView, "Successfully signed out!", Snackbar.LENGTH_LONG);
-
+                                    .make(parentView, getString(R.string.snackbar_text_sign_out_confirm), Snackbar.LENGTH_LONG);
                             snackbar.show();
-
-                            Log.v(TAG, "Sign out complete");
                             signIn();
                         }
                     });
@@ -302,11 +278,11 @@ public class MainActivity extends AppCompatActivity
                 View parentView = findViewById(R.id.drawer_layout);
 
                 Snackbar snackbar = Snackbar
-                        .make(parentView, "Successfully signed in!", Snackbar.LENGTH_LONG);
+                        .make(parentView, getString(R.string.snackbar_text_sign_in_confirm), Snackbar.LENGTH_LONG);
 
                 snackbar.show();
 
-                // Set details of header in nav drawer.
+                // Set details of header in nav drawer
                 NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
                 View hView =  navigationView.getHeaderView(0);
                 TextView nav_user = hView.findViewById(R.id.pilot_name);
@@ -319,15 +295,10 @@ public class MainActivity extends AppCompatActivity
                 View parentView = findViewById(R.id.drawer_layout);
 
                 Snackbar snackbar = Snackbar
-                        .make(parentView, "Couldn't sign in :(", Snackbar.LENGTH_LONG);
+                        .make(parentView, getString(R.string.snackbar_text_sign_in_error), Snackbar.LENGTH_LONG);
 
                 snackbar.show();
             }
         }
     }
 }
-// TODO: Landing page
-// TODO: Pilot physical requirements Master/Detail @Ishan
-// TODO: Aircraft Airworthiness Master/Detail @Ishan
-// TODO: Aircraft Master/Detail @Ishan
-//aircraft related todos
