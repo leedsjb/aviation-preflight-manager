@@ -37,6 +37,7 @@ class AircraftDatabase {
         protected final int id; // id for RecyclerView
         protected final int numOfTypes; // how many types manufacturer owns
         protected final String manufacturerCode; // the name of the manufacturer in DOC8643 format
+        final static ArrayList<AircraftType> TYPES = new ArrayList<>();
 
         /**
          * Constructor
@@ -69,15 +70,41 @@ class AircraftDatabase {
                 Log.e(TAG, e.toString());
             }
         }
-    }
 
-    /**
-     * An individual aircraft type.
-     */
-//    protected static class AircraftType{
-//        protected final String id;
-//        public final String manufacturer;
-//        protected final String modelName;
-//
-//    }
+        /**
+         * An individual aircraft type.
+         */
+        protected static class AircraftType{
+            protected final int id;
+            protected final String manufacturer;
+            protected final String modelName;
+
+            public AircraftType(int id, String manufacturer, String modelName){
+                this.id = id;
+                this.manufacturer = manufacturer;
+                this.modelName = modelName;
+            }
+
+            protected static void parseTypeJSON(JSONArray data){
+                try {
+                    int numTypes = data.length();
+                    for (int i = 0; i < numTypes; i++) {
+                        JSONObject type= data.getJSONObject(i);
+                        String manufacturer = type.getString("manufacturer_code");
+                        String model = type.getString("model_name");
+                        AircraftType aircraft = new AircraftType(i, manufacturer, model);
+                        AircraftManufacturer.TYPES.add(aircraft);
+                        Log.e(TAG, aircraft.toString());
+                    }
+                }
+                catch(JSONException e){
+                    Log.e(TAG, e.toString());
+                }
+            }
+
+            public String toString(){
+                return this.manufacturer + " " + this.modelName;
+            }
+        }
+    }
 }

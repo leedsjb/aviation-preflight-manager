@@ -1,6 +1,7 @@
 package edu.uw.leeds.peregrine;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import org.json.JSONArray;
 
-import edu.uw.leeds.peregrine.dummy.DummyContent;
 
 /**
  * A fragment representing a single Manufacturer detail screen.
@@ -62,11 +68,50 @@ public class ManufacturerDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.manufacturer_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the manufacturer name as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.manufacturer_detail)).setText(Integer.toString(mItem.numOfTypes));
         }
 
+        // setup volley
+        volleySetup(mItem.manufacturerCode);
+
         return rootView;
+    }
+
+    private void volleySetup(String manufacturer){
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+            .authority("v4p4sz5ijk.execute-api.us-east-1.amazonaws.com")
+            .appendPath("anbdata")
+            .appendPath("aircraft")
+            .appendPath("designators")
+            .appendPath("type-list")
+            .appendQueryParameter("api_key", getString(R.string.ICAO_ISTARS_API_KEY))
+            .appendQueryParameter("format","json")
+            .appendQueryParameter("manufacturer",manufacturer);
+
+        String url = builder.build().toString();
+
+        Response.Listener<JSONArray> respListener = new Response.Listener<JSONArray>(){
+            public void onResponse(JSONArray resp){
+                AircraftDatabase.AircraftManufacturer.AircraftType.parseTypeJSON(resp);
+            }
+        };
+
+        Response.ErrorListener errListener = new Response.ErrorListener(){
+            public void onErrorResponse(VolleyError err){
+                Log.e(TAG, err.toString());
+
+            }
+        };
+
+        Request<JSONArray> request = new JsonArrayRequest(Request.Method.GET, url, null, respListener, errListener);
+
+        // obtain request queue from Volley
+        RequestQueue requestQueue = RequestSingleton.getInstance(getActivity()).getRequestQueue(); // TODO getActivity() appropriate here?
+        requestQueue.add(request);
+
     }
 }
