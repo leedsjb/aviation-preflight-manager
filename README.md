@@ -37,3 +37,6 @@ Here, we get your location and show you the weather for where you are. You can a
 
 ### Home screen
 Apart from buttons leading to the above screens, users are able to look at a upcoming tasks in order of due date. 
+
+### Firebase Cloud Messaging
+Users will also receive notifications from the application if an item is about to be due. 
