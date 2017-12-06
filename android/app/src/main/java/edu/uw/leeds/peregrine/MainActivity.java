@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         prepareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
+                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
                 startActivity(i);
             }
         });
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
+                Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
                 startActivity(i);
             }
         });
