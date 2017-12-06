@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -130,8 +132,9 @@ public class InspectionItemListActivity extends AppCompatActivity {
                                 inputDescription.getText().toString(),
                                 inputRequirements.getText().toString(),
                                 inputResources.getText().toString(),
-                                dueDate,
-                                "none"
+                                dueDate.getTime(),
+                                "none",
+                                FirebaseAuth.getInstance().getCurrentUser().getUid()
                         );
                         InspectionContent.addInspectionToUserProfile(newInspectionItem);
 
@@ -156,17 +159,6 @@ public class InspectionItemListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
-        // TODO remove this temporary way of creating a new object
-        // TODO and replace with an activity to do so
-        InspectionContent.InspectionItem sample = new InspectionContent.InspectionItem(
-                "98",
-                "Title",
-                "This is an inspection item",
-                "You are required to inspect this thing",
-                "These are you resources",
-                new Date(),
-                "Name of the image");
 
         InspectionContent.initializeData();
 //        InspectionContent.addItem(sample);
@@ -239,7 +231,10 @@ public class InspectionItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+            String date = format.format(new Date(mValues.get(position).dueNext));
+
+            holder.mDueDateView.setText(date);
             holder.mContentView.setText(mValues.get(position).title);
 
             holder.itemView.setTag(mValues.get(position));
@@ -252,13 +247,13 @@ public class InspectionItemListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
+            final TextView mDueDateView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.inspection_item_title);
-                mContentView = (TextView) view.findViewById(R.id.inspection_item_dueDate);
+                mContentView = (TextView) view.findViewById(R.id.inspection_item_title);
+                mDueDateView = (TextView) view.findViewById(R.id.inspection_item_dueDate);
             }
         }
     }

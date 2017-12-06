@@ -1,9 +1,73 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/inspectionitem_detail"
-    style="?android:attr/textAppearanceLarge"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="edu.uw.leeds.peregrine.InspectionItemDetailFragment" />
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <TextView
+        android:id="@+id/inspectionitem_detail_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        style="?android:attr/textAppearanceMedium"
+        android:text="@string/header_description"/>
+
+    <TextView
+        android:id="@+id/inspectionitem_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context="edu.uw.leeds.peregrine.inspectionitemDetailFragment" />
+
+    <TextView
+        android:id="@+id/inspectionitem_requirements_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        style="?android:attr/textAppearanceMedium"
+        android:text="@string/header_requirements"/>
+
+    <TextView
+        android:id="@+id/inspectionitem_requirements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context="edu.uw.leeds.peregrine.inspectionitemDetailFragment" />
+
+    <TextView
+        android:id="@+id/inspectionitem_resources_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        style="?android:attr/textAppearanceMedium"
+        android:text="@string/header_resources"/>
+
+    <TextView
+        android:id="@+id/inspectionitem_resources"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context="edu.uw.leeds.peregrine.inspectionitemDetailFragment" />
+
+    <TextView
+        android:id="@+id/inspectionitem_duenext_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        style="?android:attr/textAppearanceMedium"
+        android:text="@string/header_next_due"/>
+
+    <TextView
+        android:id="@+id/inspectionitem_duenext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context="edu.uw.leeds.peregrine.inspectionitemDetailFragment" />
+
+</LinearLayout>
