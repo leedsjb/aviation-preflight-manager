@@ -57,6 +57,8 @@ class AircraftDatabase {
          */
         protected static void parseManufacturerJSON(JSONArray data){
             try {
+                MANUFACTURERS.clear();
+                MANUFACTURER_MAP.clear();
                 int numManufacturers = data.length();
                 for (int i = 0; i < numManufacturers; i++) { // iterate over manufacturer JSON objs
                     JSONObject manufacturer = data.getJSONObject(i);
@@ -87,6 +89,7 @@ class AircraftDatabase {
 
             protected static void parseTypeJSON(JSONArray data){
                 try {
+                    TYPES.clear();
                     int numTypes = data.length();
                     for (int i = 0; i < numTypes; i++) {
                         JSONObject type= data.getJSONObject(i);
@@ -96,6 +99,7 @@ class AircraftDatabase {
                         AircraftManufacturer.TYPES.add(aircraft);
                         Log.e(TAG, aircraft.toString());
                     }
+                    ManufacturerDetailFragment.notifyChange();
                 }
                 catch(JSONException e){
                     Log.e(TAG, e.toString());
