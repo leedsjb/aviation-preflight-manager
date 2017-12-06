@@ -32,9 +32,8 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
     implementation 'com.firebaseui:firebase-ui-database:3.1.0'
-    implementation 'com.android.volley:volley:1.0.0'
     implementation 'com.google.firebase:firebase-messaging:11.4.2'
 }
 
 
-apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services' // use for Firebase support
