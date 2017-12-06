@@ -1,14 +1,19 @@
 package edu.uw.leeds.peregrine;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An activity representing a single PilotPhysical detail screen. This
@@ -44,13 +49,35 @@ public class PilotPhysicalDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
+            String itemId = getIntent().getStringExtra(PilotPhysicalDetailFragment.ARG_ITEM_ID);
             arguments.putString(PilotPhysicalDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(PilotPhysicalDetailFragment.ARG_ITEM_ID));
+                    itemId);
             PilotPhysicalDetailFragment fragment = new PilotPhysicalDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.pilotphysical_detail_container, fragment)
                     .commit();
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_check_circle_black_24dp);
+            fab.setImageDrawable(fabIcon);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PilotPhysicalContent.PilotPhysicalItem curr =
+                            PilotPhysicalContent.ITEM_MAP.get(getIntent().getStringExtra(PilotPhysicalDetailFragment.ARG_ITEM_ID));
+                    Long yearInMilli = Long.parseLong("31556952000");
+                    curr.dueNext = curr.dueNext + yearInMilli; //number of seconds in a year
+
+                    for(String key : PilotPhysicalContent.listeningKeys) {
+                        if(curr.id.equals(key.hashCode() + "")) {
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/pilot-items-list/" + key + "/abstraction/", curr);
+                            MainActivity.mDatabaseRef.updateChildren(childUpdates);
+                        }
+                    }
+                }
+            });
         }
     }
 
