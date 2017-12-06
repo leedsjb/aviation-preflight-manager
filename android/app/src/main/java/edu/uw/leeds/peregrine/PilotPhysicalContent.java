@@ -41,7 +41,8 @@ public class PilotPhysicalContent {
     private static final DatabaseReference pilotDbReference =
             MainActivity.mDatabaseRef.child(firebasePilotPathString);
 
-    private static Set<String> listeningKeys = new HashSet<>();
+    public static Set<String> listeningKeys = new HashSet<>();
+    private static boolean addNewListener = true;
 
     // TODO write JDoc
     static void initializeData(){
@@ -49,16 +50,18 @@ public class PilotPhysicalContent {
         // clear data to prevent duplicates
         ITEMS.clear(); // clear data from local ArrayList<>
         ITEM_MAP.clear(); // clear data from local Map
+        listeningKeys.clear(); //clear registered keys
+        addNewListener = true; //allow registering new listeners
 
-        // listen for changes to the aircraft node and its children in Firebase
+        // listen for changes to the pilot item list for this user
         ChildEventListener pilotEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildName) {
                 String inspectionKey = dataSnapshot.getKey();
-                if(!listeningKeys.contains(inspectionKey)) {
+                if(addNewListener && !listeningKeys.contains(inspectionKey)) {
                     listeningKeys.add(inspectionKey);
-
-                    Log.v(TAG, "recieved user key: " + inspectionKey);
+                    
+                    //add listener for this specific pilot item
                     ChildEventListener pilotInspectionListener = new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -136,7 +139,7 @@ public class PilotPhysicalContent {
         if(childEventListener != null){
             pilotDbReference.removeEventListener(childEventListener);
         }
-        listeningKeys.clear();
+        addNewListener = false;
     }
 
     /**
@@ -145,10 +148,12 @@ public class PilotPhysicalContent {
      */
     protected static void addPilotItemToProfile(PilotPhysicalItem itemToAdd){
 
+        //use key as unique identifier for this object
         String key = pilotDbReference.push().getKey(); // get key for new PilotPhysicalItem
         itemToAdd.id = "" + key.hashCode();
         Map<String, Object> physicalItemValues = itemToAdd.toMap(); // marshal object to map
 
+        //write data to both users pilot item database and the overall pilot item database
         // create empty hashmap to contain updates to Firebase
         Map<String, Object> childUpdates = new HashMap<>();
 

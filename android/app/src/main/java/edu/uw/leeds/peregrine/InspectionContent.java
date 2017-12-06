@@ -37,7 +37,10 @@ public class InspectionContent {
     private static final String firebasePathString = "inspection-list";
     private static final DatabaseReference inspectionDbReference = MainActivity.mDatabaseRef.child(firebasePathString);
 
-    private static Set<String> listeningKeys = new HashSet<>();
+    //set of keys with listeners attached to avoid duplicate listeners
+    public static Set<String> listeningKeys = new HashSet<>();
+    //boolean flag to not add listeners when the activity is closed
+    private static boolean addNewListener = true;
 
     /**
      * TODO add JDoc
@@ -47,15 +50,18 @@ public class InspectionContent {
         // clear data to prevent duplicates
         ITEMS.clear(); // clear data from local ArrayList<>
         ITEM_MAP.clear(); // clear data from local Map
+        listeningKeys.clear(); //clear storage of listening keys
+        addNewListener = true; //allow add new listeners
 
-        // listen for changes to the aircraft node and its children in Firebase
+        // listen for changes to the inspection items registered with this user
         ChildEventListener inspectionEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildName) {
                 String inspectionKey = dataSnapshot.getKey();
-                if(!listeningKeys.contains(inspectionKey)) {
+                //check that the key received is a new item
+                if(addNewListener && !listeningKeys.contains(inspectionKey)) {
                     listeningKeys.add(inspectionKey);
-
+                    //listen for changes with this specific inspection item
                     ChildEventListener inspectionListener = new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -117,6 +123,7 @@ public class InspectionContent {
             }
         };
 
+        //get database reference to this users inspections
         DatabaseReference userReference = MainActivity.mDatabaseRef
                 .child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -133,16 +140,18 @@ public class InspectionContent {
         if(childEventListener != null){
             inspectionDbReference.removeEventListener(childEventListener);
         }
-        listeningKeys.clear();
+        addNewListener = false;
     }
 
     // called when the user adds an item that needs to be sent to firebase
     static void addInspectionToUserProfile(InspectionItem inspectionToAdd){
 
+        //use the generated key as a unique id for this object
         String key = inspectionDbReference.push().getKey();
         inspectionToAdd.id = "" + key.hashCode();
         Map<String, Object> inspectionValues = inspectionToAdd.toMap();
 
+        //write to both the users database and the overall database of inspections
         Map<String,Object> childUpdates = new HashMap<>();
         childUpdates.put("/"+firebasePathString+"/"+key + "/abstraction/", inspectionValues);
 

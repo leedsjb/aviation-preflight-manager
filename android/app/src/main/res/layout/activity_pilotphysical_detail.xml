@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@+id/inspectionitem_detail_container"
+        app:layout_anchor="@+id/pilotphysical_detail_container"
         app:layout_anchorGravity="top|end"
         app:srcCompat="@android:drawable/checkbox_on_background" />
 

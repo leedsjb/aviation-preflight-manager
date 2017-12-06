@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An activity representing a single InspectionItem detail screen. This
@@ -35,17 +37,6 @@ public class InspectionItemDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_check_circle_black_24dp);
-        fab.setImageDrawable(fabIcon);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: @John Akers, update firebase object
-                Snackbar.make(view, "Marked as done", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -73,6 +64,27 @@ public class InspectionItemDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.inspectionitem_detail_container, fragment)
                     .commit();
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_check_circle_black_24dp);
+            fab.setImageDrawable(fabIcon);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    InspectionContent.InspectionItem curr =
+                            InspectionContent.ITEM_MAP.get(getIntent().getStringExtra(InspectionItemDetailFragment.ARG_ITEM_ID));
+                    Long yearInMilli = Long.parseLong("31556952000");
+                    curr.dueNext = curr.dueNext + yearInMilli; //number of seconds in a year
+
+                    for(String key : InspectionContent.listeningKeys) {
+                        if(curr.id.equals(key.hashCode() + "")) {
+                            Map<String, Object> childUpdates = new HashMap<>();
+                            childUpdates.put("/inspection-list/" + key + "/abstraction/", curr);
+                            MainActivity.mDatabaseRef.updateChildren(childUpdates);
+                        }
+                    }
+                }
+            });
         } else {
             Log.v(TAG, "Restoring title");
             setTitle(savedInstanceState.getString(ACTIVITY_TITLE_KEY));
