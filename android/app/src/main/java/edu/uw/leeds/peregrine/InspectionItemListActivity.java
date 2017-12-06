@@ -2,18 +2,21 @@ package edu.uw.leeds.peregrine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +34,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private static RecyclerView.Adapter adapter;
+    private static final String TAG = "InspectionItmLstActvity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,12 @@ public class InspectionItemListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "add new inspection item", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -58,13 +65,41 @@ public class InspectionItemListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        // TODO remove this temporary way of creating a new object
+        // TODO and replace with an activity to do so
+        InspectionContent.InspectionItem sample = new InspectionContent.InspectionItem(
+                "98",
+                "Title",
+                "This is an inspection item",
+                "You are required to inspect this thing",
+                "These are you resources",
+                new Date(),
+                "Name of the image");
+
+        InspectionContent.initializeData();
+//        InspectionContent.addItem(sample);
+//        InspectionContent.addInspectionToUserProfile(sample);
+
         View recyclerView = findViewById(R.id.inspectionitem_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        InspectionContent.removeEvListener();
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, InspectionContent.ITEMS, mTwoPane));
+        this.adapter = new SimpleItemRecyclerViewAdapter(
+                this, InspectionContent.ITEMS, mTwoPane);
+        recyclerView.setAdapter(this.adapter);
+    }
+
+    // tell the adapter the underlying data has changed
+    static void notifyChange(int id){
+        adapter.notifyItemChanged(id);
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -130,8 +165,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mIdView = (TextView) view.findViewById(R.id.inspection_item_title);
+                mContentView = (TextView) view.findViewById(R.id.inspection_item_dueDate);
             }
         }
     }

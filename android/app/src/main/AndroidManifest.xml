@@ -68,6 +68,7 @@
         <activity
             android:name=".UpcomingFlight"
             android:label="@string/title_activity_upcoming_flight"
+<<<<<<< HEAD
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
@@ -78,6 +79,14 @@
         </service>
         <service android:name=".CurrentLocationService"></service>
         <service android:name=".WeatherService"></service>
+=======
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
+        <service android:name=".CurrentLocationService"></service>
+        <service android:name=".WeatherService"></service>
+        <service android:name=".AirportService"></service>
+>>>>>>> 6c3be86507215cd1f1b67d1dc539168a58682aef
     </application>
 
 </manifest>

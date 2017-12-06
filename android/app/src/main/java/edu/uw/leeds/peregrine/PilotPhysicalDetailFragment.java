@@ -35,8 +35,7 @@ public class PilotPhysicalDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PilotPhysicalDetailFragment() {
-    }
+    public PilotPhysicalDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +51,9 @@ public class PilotPhysicalDetailFragment extends Fragment {
             Log.v(TAG, "mItem is: " + mItem);
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-//            if (appBarLayout != null) {
-//                appBarLayout.setTitle(mItem.title);
-//            }
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(mItem.title);
+            }
         }
     }
 
