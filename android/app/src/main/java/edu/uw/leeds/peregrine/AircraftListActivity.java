@@ -106,15 +106,15 @@ public class AircraftListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AircraftContent.AircraftItem item = (AircraftContent.AircraftItem) view.getTag();
-                if (mTwoPane) {
+                if (mTwoPane) { // wide-screen layout, open detail fragment alongside list
                     Bundle arguments = new Bundle();
-                    arguments.putString(AircraftDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putInt(AircraftDetailFragment.ARG_ITEM_ID, item.id);
                     AircraftDetailFragment fragment = new AircraftDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.aircraft_detail_container, fragment)
                             .commit();
-                } else {
+                } else { // narrow-screen layout, open details fragment in new activity
                     Context context = view.getContext();
                     Intent intent = new Intent(context, AircraftDetailActivity.class);
                     intent.putExtra(AircraftDetailFragment.ARG_ITEM_ID, item.id);
@@ -141,7 +141,7 @@ public class AircraftListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
+            holder.mIdView.setText(mValues.get(position).serialNumber);
             holder.mContentView.setText(mValues.get(position).planeName);
 
             holder.itemView.setTag(mValues.get(position));

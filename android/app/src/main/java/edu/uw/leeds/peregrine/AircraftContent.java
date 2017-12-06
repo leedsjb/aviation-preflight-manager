@@ -26,7 +26,7 @@ public class AircraftContent {
     /**
      * A map of aircraft items, by ID.
      */
-    public static final Map<String, AircraftItem> ITEM_MAP = new HashMap<String, AircraftItem>();
+    public static final Map<Integer, AircraftItem> ITEM_MAP = new HashMap<>();
 
     private static final String TAG = "AircraftContent";
 
@@ -48,7 +48,7 @@ public class AircraftContent {
 
                 addItem(acItem); // add item from Firebase to local data store
 
-                int intId = Integer.decode(acItem.getId()); // convert String id to int
+                int intId = acItem.getId(); // convert String id to int TODO delete if not needed
 
                 AircraftListActivity.notifyChange(intId); // notify RecyclerView of data change
 
@@ -116,14 +116,14 @@ public class AircraftContent {
      * One inspection task for aircraft airworthiness.
      */
     public static class AircraftItem {
-        public String id;
+        public int id;
         public String planeName;
         public String serialNumber;
-        public String yearOfManufacture;
-        public String tachometerTime;
-        public String fuelLevel;
+        public int yearOfManufacture;
+        public double tachometerTime;
+        public double fuelLevel;
 
-        public AircraftItem(String id, String planeName, String serialNumber, String yearOfManufacture, String tachometerTime, String fuelLevel) {
+        public AircraftItem(int id, String planeName, String serialNumber, int yearOfManufacture,double tachometerTime, double fuelLevel) {
             this.id = id;
             this.planeName = planeName;
             this.serialNumber = serialNumber;
@@ -135,7 +135,7 @@ public class AircraftContent {
         public AircraftItem(){};
 
         @Exclude
-        public String getId(){
+        public int getId(){
             return this.id;
         }
 
@@ -150,17 +150,17 @@ public class AircraftContent {
         }
 
         @Exclude
-        public String getYearOfManufacture(){
+        public int getYearOfManufacture(){
             return this.yearOfManufacture;
         }
 
         @Exclude
-        public String getTachometerTime(){
+        public double getTachometerTime(){
             return this.tachometerTime;
         }
 
         @Exclude
-        public String getFuelLevel(){
+        public double getFuelLevel(){
             return this.fuelLevel;
         }
 
@@ -179,7 +179,7 @@ public class AircraftContent {
 
         @Exclude // excluded for FireBase purposes
         public String toString() {
-            return "";
+            return this.planeName;
         }
     }
 }
