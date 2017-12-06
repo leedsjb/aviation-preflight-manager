@@ -3,6 +3,10 @@
     <string name="action_settings">Settings</string>
 
     <!--MainActivity-->
+    <string name="snackbar_text_sign_in_confirm">Successfully signed in!</string>
+    <string name="snackbar_text_sign_in_error">Could not sign in.</string>
+    <string name="snackbar_text_sign_out_confirm">Successfully signed out.</string>
+
     <!--Buttons-->
     <string name="prepare_button">Prepare for a flight</string>
     <string name="check_status_button">Check/Update airplane status</string>
