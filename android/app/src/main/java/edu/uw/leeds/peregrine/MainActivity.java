@@ -32,6 +32,8 @@ import android.widget.TextView;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -60,38 +62,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Check if user is authenticated.
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
-            // If not, present log in activity.
-            // Choose authentication providers
-            List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-            // Create and launch sign-in intent
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build(),
-                    RC_SIGN_IN);
-        }
-
-
+        signIn();
 
         // Onclick Listeners
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                notifyUser(new NotificationMessage("hello", "2 days", "high"));
-
-                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
-                startActivity(i);
-            }
-        });
-
-
         Button prepareButton = (Button) findViewById(R.id.prepare_button);
         prepareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +174,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.medical_requirements) {
             Intent i = new Intent(this, PilotPhysicalListActivity.class);
             startActivity(i);
+        } else if (id == R.id.sign_out) {
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -316,6 +291,50 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Attempt to sign in if the user is not already signed in.
+    private void signIn() {
+        // Check if user is authenticated.
+        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
+            // If not, present log in activity.
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
+            // Create and launch sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
+        }
+    }
+
+    // Attempt to sign out if the user is already signed in.
+    private void signOut() {
+        Log.v(TAG, "Attempting sign out");
+
+        // Check if user is authenticated
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            View parentView = findViewById(R.id.drawer_layout);
+
+                            Snackbar snackbar = Snackbar
+                                    .make(parentView, "Successfully signed out!", Snackbar.LENGTH_LONG);
+
+                            snackbar.show();
+
+                            Log.v(TAG, "Sign out complete");
+                            signIn();
+                        }
+                    });
+        } else {
+            Log.v(TAG, "Not signed in already");
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -328,9 +347,20 @@ public class MainActivity extends AppCompatActivity
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-            } else {
-                // Sign in failed, check response for error code
+                View parentView = findViewById(R.id.drawer_layout);
 
+                Snackbar snackbar = Snackbar
+                        .make(parentView, "Successfully signed in!", Snackbar.LENGTH_LONG);
+
+                snackbar.show();
+
+            } else {
+                View parentView = findViewById(R.id.drawer_layout);
+
+                Snackbar snackbar = Snackbar
+                        .make(parentView, "Couldn't sign in :(", Snackbar.LENGTH_LONG);
+
+                snackbar.show();
             }
         }
     }

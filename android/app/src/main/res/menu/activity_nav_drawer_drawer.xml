@@ -21,6 +21,10 @@
             android:id="@+id/medical_requirements"
             android:icon="@drawable/ic_local_hospital_black_24dp"
             android:title="Medical Requirements" />
+        <item
+            android:id="@+id/sign_out"
+            android:icon="@android:drawable/ic_lock_lock"
+            android:title="@string/sign_out_button" />
     </group>
 
 </menu>
