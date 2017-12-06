@@ -16,7 +16,7 @@ import java.util.Map;
  * https://www.icao.int/safety/iStars/Pages/API-Data-Service.aspx
  * @author benjaminleeds
  * @version Revised: 12/1/17
- * Created: Friday December 1, 2017
+ * Created: Wednesday December 6, 2017
  */
 
 class AircraftDatabase {
@@ -97,7 +97,6 @@ class AircraftDatabase {
                         String model = type.getString("model_name");
                         AircraftType aircraft = new AircraftType(i, manufacturer, model);
                         AircraftManufacturer.TYPES.add(aircraft);
-                        Log.e(TAG, aircraft.toString());
                     }
                     ManufacturerDetailFragment.notifyChange();
                 }

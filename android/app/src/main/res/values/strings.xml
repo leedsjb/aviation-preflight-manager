@@ -30,4 +30,14 @@
 
     <string name="title_activity_upcoming_flight">Upcoming Flight</string>
     <string name="current_weather">Current Weather:</string>
+
+    <!--Add Aircraft AlertDialog-->
+    <string name="title_add_aircraft_alert_dialog">Add Aircraft</string>
+    <string name="text_ac_model_label">Model</string>
+    <string name="text_ac_serial_number_label">Serial Number</string>
+    <string name="text_ac_year_manufactured_label">Year of Manufacture</string>
+    <string name="text_ac_tach_time_label">Tachometer Time</string>
+    <string name="text_ac_fuel_level_label">Current Fuel Level</string>
+    <string name="button_text_add_aircraft">ADD AIRCRAFT</string>
+    <string name="button_text_cancel">CANCEL</string>
 </resources>
