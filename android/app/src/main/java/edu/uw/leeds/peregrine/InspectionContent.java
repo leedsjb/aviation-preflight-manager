@@ -77,7 +77,19 @@ public class InspectionContent {
 
                         @Override
                         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                            InspectionItem inspectionItem = dataSnapshot.getValue(InspectionItem.class);
+                            ITEM_MAP.put(inspectionItem.id, inspectionItem);
+                            for(int i = 0; i < ITEMS.size(); i++) {
+                                if(ITEMS.get(i).id.equals(inspectionItem.id)) {
+                                    ITEMS.remove(i);
+                                    ITEMS.add(i, inspectionItem);
 
+                                    break;
+                                }
+
+                            }
+                            int intId = Integer.decode(inspectionItem.getId());
+                            InspectionItemListActivity.notifyChange(intId);
                         }
 
                         @Override

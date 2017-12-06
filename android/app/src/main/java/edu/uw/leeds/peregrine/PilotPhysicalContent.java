@@ -60,7 +60,7 @@ public class PilotPhysicalContent {
                 String inspectionKey = dataSnapshot.getKey();
                 if(addNewListener && !listeningKeys.contains(inspectionKey)) {
                     listeningKeys.add(inspectionKey);
-                    
+
                     //add listener for this specific pilot item
                     ChildEventListener pilotInspectionListener = new ChildEventListener() {
                         @Override
@@ -78,7 +78,19 @@ public class PilotPhysicalContent {
 
                         @Override
                         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                            PilotPhysicalItem pilotItem = dataSnapshot.getValue(PilotPhysicalItem.class);
+                            ITEM_MAP.put(pilotItem.id, pilotItem);
+                            for(int i = 0; i < ITEMS.size(); i++) {
+                                if(ITEMS.get(i).id.equals(pilotItem.id)) {
+                                    ITEMS.remove(i);
+                                    ITEMS.add(i, pilotItem);
 
+                                    break;
+                                }
+
+                            }
+                            int intId = Integer.decode(pilotItem.getId());
+                            PilotPhysicalListActivity.notifyChange(intId);
                         }
 
                         @Override
