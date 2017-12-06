@@ -2,8 +2,10 @@ package edu.uw.leeds.peregrine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-
-import edu.uw.leeds.peregrine.dummy.DummyContent;
-
 import java.util.List;
 
 /**
@@ -50,11 +48,15 @@ public class AircraftListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        // use ContextCompat due to getDrawable() changes in SDK 21
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(AircraftListActivity.this, ManufacturerListActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -108,15 +110,15 @@ public class AircraftListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AircraftContent.AircraftItem item = (AircraftContent.AircraftItem) view.getTag();
-                if (mTwoPane) {
+                if (mTwoPane) { // wide-screen layout, open detail fragment alongside list
                     Bundle arguments = new Bundle();
-                    arguments.putString(AircraftDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putInt(AircraftDetailFragment.ARG_ITEM_ID, item.id);
                     AircraftDetailFragment fragment = new AircraftDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.aircraft_detail_container, fragment)
                             .commit();
-                } else {
+                } else { // narrow-screen layout, open details fragment in new activity
                     Context context = view.getContext();
                     Intent intent = new Intent(context, AircraftDetailActivity.class);
                     intent.putExtra(AircraftDetailFragment.ARG_ITEM_ID, item.id);
@@ -143,7 +145,7 @@ public class AircraftListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
+            holder.mIdView.setText(mValues.get(position).serialNumber);
             holder.mContentView.setText(mValues.get(position).planeName);
 
             holder.itemView.setTag(mValues.get(position));

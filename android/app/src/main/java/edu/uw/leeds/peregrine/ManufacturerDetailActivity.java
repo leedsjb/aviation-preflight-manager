@@ -11,17 +11,17 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 /**
- * An activity representing a single Aircraft detail screen. This
+ * An activity representing a single Manufacturer detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link AircraftListActivity}.
+ * in a {@link ManufacturerListActivity}.
  */
-public class AircraftDetailActivity extends AppCompatActivity {
+public class ManufacturerDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aircraft_detail);
+        setContentView(R.layout.activity_manufacturer_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,12 +53,12 @@ public class AircraftDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putInt(AircraftDetailFragment.ARG_ITEM_ID,
-                    getIntent().getIntExtra(AircraftDetailFragment.ARG_ITEM_ID,-1));
-            AircraftDetailFragment fragment = new AircraftDetailFragment();
+            arguments.putInt(ManufacturerDetailFragment.ARG_ITEM_ID,
+                    getIntent().getIntExtra(ManufacturerDetailFragment.ARG_ITEM_ID, -1));
+            ManufacturerDetailFragment fragment = new ManufacturerDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.aircraft_detail_container, fragment)
+                    .add(R.id.manufacturer_detail_container, fragment)
                     .commit();
         }
     }
@@ -73,7 +73,7 @@ public class AircraftDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, AircraftListActivity.class));
+            navigateUpTo(new Intent(this, ManufacturerListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

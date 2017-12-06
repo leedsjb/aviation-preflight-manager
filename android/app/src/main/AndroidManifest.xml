@@ -75,6 +75,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.uw.leeds.peregrine.PilotPhysicalListActivity" />
         </activity>
+
+
+        <activity
+            android:name=".ManufacturerListActivity"
+            android:label="@string/title_manufacturer_list"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.AircraftListActivity" />
+        </activity>
+        <activity
+            android:name=".ManufacturerDetailActivity"
+            android:label="@string/title_manufacturer_detail"
+            android:parentActivityName=".ManufacturerListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.uw.leeds.peregrine.ManufacturerListActivity" />
+        </activity>
         <activity
             android:name=".UpcomingFlight"
             android:label="@string/title_activity_upcoming_flight"
