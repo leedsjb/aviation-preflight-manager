@@ -27,7 +27,11 @@
         <activity
             android:name=".InspectionItemListActivity"
             android:label="@string/title_inspectionitem_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".InspectionItemDetailActivity"
             android:label="@string/title_inspectionitem_detail"
@@ -40,7 +44,11 @@
         <activity
             android:name=".AircraftListActivity"
             android:label="@string/title_aircraft_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".AircraftDetailActivity"
             android:label="@string/title_aircraft_detail"
@@ -53,7 +61,11 @@
         <activity
             android:name=".PilotPhysicalListActivity"
             android:label="@string/title_pilotphysical_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".PilotPhysicalDetailActivity"
             android:label="@string/title_pilotphysical_detail"
@@ -64,18 +76,24 @@
                 android:value="edu.uw.leeds.peregrine.PilotPhysicalListActivity" />
         </activity>
         <activity
-            android:name=".navDrawer"
-            android:label="@string/title_activity_nav_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UpcomingFlight"
             android:label="@string/title_activity_upcoming_flight"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
+        <service
+            android:name=".ReminderMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
-        <service android:name=".CurrentLocationService"></service>
-        <service android:name=".WeatherService"></service>
-        <service android:name=".AirportService"></service>
+        <service android:name=".CurrentLocationService"/>
+        <service android:name=".WeatherService"/>
+        <service android:name=".AirportService"/>
     </application>
 
 </manifest>

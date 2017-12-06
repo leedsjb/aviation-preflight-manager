@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,13 +50,16 @@ public class UpcomingFlight extends AppCompatActivity {
 
     private static final int FINE_LOCATION_REQUEST_CODE = 199;
     private static final String TAG = "UpcomingFlightActivity";
+    private static final String SAVED_AIRPORT_DATA_KEY = "saved_airport_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_upcoming_flight);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myAdapter = new MyAdapter(this, mData);
         ListView listView = findViewById(R.id.upcoming_flight_list_view);
@@ -64,20 +69,26 @@ public class UpcomingFlight extends AppCompatActivity {
         MyReceiver mBroadcastReceiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(AirportService.PROCESS_AIRPORT);
-        /*
         filter.addAction(CurrentLocationService.PROCESS_LOCATION);
         filter.addAction(CurrentLocationService.REQUEST_LOCATION_PERM);
         filter.addAction(WeatherService.PROCESS_WEATHER);
-        */
+
         LocalBroadcastManager bm = LocalBroadcastManager.getInstance(this);
         bm.registerReceiver(mBroadcastReceiver, filter);
 
+        //starts service to get current location and load weather data
+        Intent locationIntent = new Intent(UpcomingFlight.this, CurrentLocationService.class);
+        startService(locationIntent);
+
+        //sets up fab to start an input dialog for IATA codes to search for
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UpcomingFlight.this, R.style.Theme_AppCompat_Dialog_Alert);
-                builder.setTitle("Add airport name");
+                builder.setTitle("Input Airport IATA Code");
 
                 // Set up the input
                 final EditText input = new EditText(getApplicationContext());
@@ -98,6 +109,29 @@ public class UpcomingFlight extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        Log.v(TAG, "saving data");
+        savedInstanceState.putParcelableArrayList(SAVED_AIRPORT_DATA_KEY, mData);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.v(TAG, "restoring");
+        if(savedInstanceState != null) {
+            Log.v(TAG, "have data");
+            ArrayList<AirportData> stored_airports = savedInstanceState.getParcelableArrayList(SAVED_AIRPORT_DATA_KEY);
+            if (stored_airports != null) {
+                Log.v(TAG, "adding");
+                mData.addAll(stored_airports);
+            }
+            myAdapter.notifyDataSetChanged();
+        }
+
     }
 
     public static class MyAdapter extends ArrayAdapter<AirportData> {
@@ -157,14 +191,14 @@ public class UpcomingFlight extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            /*
+
             if (intent.getAction().equals(CurrentLocationService.REQUEST_LOCATION_PERM)) {
-                int permissionCheck = ContextCompat.checkSelfPermission(getParent(), Manifest.permission.ACCESS_FINE_LOCATION);
+                int permissionCheck = ContextCompat.checkSelfPermission(UpcomingFlight.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     Intent locationIntent = new Intent(UpcomingFlight.this, CurrentLocationService.class);
                     startService(locationIntent);
                 } else {
-                    ActivityCompat.requestPermissions(getParent(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
+                    ActivityCompat.requestPermissions(UpcomingFlight.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
                 }
             } else if (intent.getAction().equals(CurrentLocationService.PROCESS_LOCATION)) {
                 Log.v(TAG, "location received");
@@ -173,8 +207,9 @@ public class UpcomingFlight extends AppCompatActivity {
                 weatherIntent.putExtra(WeatherService.LONGITUDE_KEY, intent.getDoubleExtra(CurrentLocationService.LOCATION_LONGITUDE_KEY, 0));
                 startService(weatherIntent);
             } else if (intent.getAction().equals(WeatherService.PROCESS_WEATHER)) {
-                Log.v(TAG, ((ForecastData) intent.getParcelableExtra(WeatherService.WEATHER_KEY)).weather);
-            }*/
+                TextView weatherText = findViewById(R.id.current_weather_view);
+                weatherText.setText(((ForecastData) intent.getParcelableExtra(WeatherService.WEATHER_KEY)).weather);
+            }
             if(intent.getAction().equals(AirportService.PROCESS_AIRPORT)) {
                 Log.v(TAG, "something received");
                 AirportData airportData = intent.getParcelableExtra(AirportService.AIRPORT_KEY);

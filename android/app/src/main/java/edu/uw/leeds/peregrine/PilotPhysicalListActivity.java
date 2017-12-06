@@ -1,20 +1,29 @@
 package edu.uw.leeds.peregrine;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,14 +54,100 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(PilotPhysicalListActivity.this, R.style.Theme_AppCompat_Dialog_Alert);
+                builder.setTitle("Add New Physical Inspection");
+
+                LinearLayout layout = new LinearLayout(PilotPhysicalListActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                // Set up the input
+                final TextView textTitle = new TextView(getApplicationContext());
+                textTitle.setText("Title");
+                layout.addView(textTitle);
+
+                final EditText inputTitle = new EditText(getApplicationContext());
+                inputTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputTitle.setHint("title");
+                layout.addView(inputTitle);
+
+                final TextView textDescription = new TextView(getApplicationContext());
+                textDescription.setText("Description");
+                layout.addView(textDescription);
+
+                final EditText inputDescription = new EditText(getApplicationContext());
+                inputDescription.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputDescription.setHint("description");
+                layout.addView(inputDescription);
+
+                final TextView textRequirements = new TextView(getApplicationContext());
+                textRequirements.setText("Requirements");
+                layout.addView(textRequirements);
+
+                final EditText inputRequirements = new EditText(getApplicationContext());
+                inputRequirements.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputRequirements.setHint("requirements");
+                layout.addView(inputRequirements);
+
+                final TextView textResources = new TextView(getApplicationContext());
+                textResources.setText("Resources");
+                layout.addView(textResources);
+
+                final EditText inputResources = new EditText(getApplicationContext());
+                inputResources.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputResources.setHint("resources");
+                layout.addView(inputResources);
+
+                final TextView textNextDue = new TextView(getApplicationContext());
+                textNextDue.setText("Next Due Date");
+                layout.addView(textNextDue);
+
+                final EditText inputDueNext = new EditText(getApplicationContext());
+                inputDueNext.setInputType(InputType.TYPE_CLASS_DATETIME);
+                inputDueNext.setHint("MM-dd-YYYY");
+                layout.addView(inputDueNext);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+                        Date dueDate = null;
+                        try {
+                            dueDate = df.parse(inputDueNext.getText().toString());
+                        } catch (ParseException err) {
+                            Log.v(TAG, "invalid date sumbitted");
+                        }
+                        PilotPhysicalContent.PilotPhysicalItem newPilotItem = new PilotPhysicalContent.PilotPhysicalItem(
+                                null,
+                                inputTitle.getText().toString(),
+                                inputDescription.getText().toString(),
+                                inputRequirements.getText().toString(),
+                                inputResources.getText().toString(),
+                                dueDate,
+                                "none"
+                        );
+                        PilotPhysicalContent.addPilotItemToProfile(newPilotItem);
+
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                builder.setView(layout);
+                builder.show();
             }
         });
 

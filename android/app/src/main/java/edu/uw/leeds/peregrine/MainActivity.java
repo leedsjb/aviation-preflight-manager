@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
     protected static DatabaseReference mDatabaseRef; // single DB ref for entire app
-    private static final String NOTIF_CHANNEL_ID = "edu.uw.leeds.peregrine.channel";
+
 
     private static final int RC_SIGN_IN = 123;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         prepareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
+                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
                 startActivity(i);
             }
         });
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, UpcomingFlight.class);
+                Intent i = new Intent(MainActivity.this, InspectionItemListActivity.class);
                 startActivity(i);
             }
         });
@@ -249,47 +249,48 @@ public class MainActivity extends AppCompatActivity
             return convertView;
         }
     }
-    public void notifyUser(NotificationMessage nm) {
-        // Specify where tapping this notification will navigate user
-        Intent notifyIntent = new Intent(getApplicationContext(), MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notifyIntent, 0);
 
-        // Construct the Big View
-        // View Message
-        Intent notifyViewIntent = new Intent(getApplicationContext(), MainActivity.class);
-//                notifyViewIntent.setAction(CommonConstants.ACTION_DISMISS) // to dismiss on press
-        PendingIntent pendIntView = PendingIntent.getActivity(getApplicationContext(), 0, notifyViewIntent, 0);
-
-        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        //Oreo
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-            Notification.Builder builder = new Notification.Builder(getApplicationContext(), NOTIF_CHANNEL_ID)
-                    .setContentTitle(nm.message)
-                    .setContentText(nm.timeline)
-                    .setSmallIcon(R.drawable.ic_menu_camera)//TODO change
-                    .setContentIntent(pendingIntent) // set destination when notification is tapped
-                    .addAction(0, "View", pendIntView);
-
-            NotificationChannel channel = new NotificationChannel(NOTIF_CHANNEL_ID, "General Notification", NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("Test");
-            channel.enableLights(true);
-            notificationManager.createNotificationChannel(channel);
-            notificationManager.notify(1, builder.build());
-        } else {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                    .setContentTitle(nm.message)
-                    .setContentText(nm.timeline)
-                    .setSmallIcon(R.drawable.ic_menu_camera) //TODO change
-                    .setContentIntent(pendingIntent)
-                    .addAction(0, "View", pendIntView);
-
-            // Post Notification
-            notificationManager.notify(1, builder.build()); // Post notification
-
-        }
-    }
+//    public void notifyUser(NotificationMessage nm) {
+//        // Specify where tapping this notification will navigate user
+//        Intent notifyIntent = new Intent(getApplicationContext(), MainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notifyIntent, 0);
+//
+//        // Construct the Big View
+//        // View Message
+//        Intent notifyViewIntent = new Intent(getApplicationContext(), MainActivity.class);
+////                notifyViewIntent.setAction(CommonConstants.ACTION_DISMISS) // to dismiss on press
+//        PendingIntent pendIntView = PendingIntent.getActivity(getApplicationContext(), 0, notifyViewIntent, 0);
+//
+//        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        //Oreo
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//
+//            Notification.Builder builder = new Notification.Builder(getApplicationContext(), NOTIF_CHANNEL_ID)
+//                    .setContentTitle(nm.message)
+//                    .setContentText(nm.timeline)
+//                    .setSmallIcon(R.drawable.ic_menu_camera)//TODO change
+//                    .setContentIntent(pendingIntent) // set destination when notification is tapped
+//                    .addAction(0, "View", pendIntView);
+//
+//            NotificationChannel channel = new NotificationChannel(NOTIF_CHANNEL_ID, "General Notification", NotificationManager.IMPORTANCE_HIGH);
+//            channel.setDescription("Test");
+//            channel.enableLights(true);
+//            notificationManager.createNotificationChannel(channel);
+//            notificationManager.notify(1, builder.build());
+//        } else {
+//            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+//                    .setContentTitle(nm.message)
+//                    .setContentText(nm.timeline)
+//                    .setSmallIcon(R.drawable.ic_menu_camera) //TODO change
+//                    .setContentIntent(pendingIntent)
+//                    .addAction(0, "View", pendIntView);
+//
+//            // Post Notification
+//            notificationManager.notify(1, builder.build()); // Post notification
+//
+//        }
+//    }
 
     // Attempt to sign in if the user is not already signed in.
     private void signIn() {
@@ -366,9 +367,6 @@ public class MainActivity extends AppCompatActivity
     }
 }
 // TODO: Landing page
-// TODO: Nav drawer @Jessica
-// TODO: Upcoming flights + Enter new airport @Jessica
-// TODO: Notifications: @Jessica
 // TODO: Pilot physical requirements Master/Detail @Ishan
 // TODO: Aircraft Airworthiness Master/Detail @Ishan
 // TODO: Aircraft Master/Detail @Ishan
