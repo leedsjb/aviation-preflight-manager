@@ -52,6 +52,7 @@ public class PilotPhysicalListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v(TAG, "recreating data");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pilotphysical_list);
 
