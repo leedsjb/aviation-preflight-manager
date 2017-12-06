@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(this, PilotPhysicalListActivity.class);
             startActivity(i);
         }
-
+        item.setChecked(false);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
