@@ -14,6 +14,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/current_weather_blurb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="20sp"
+        android:text="@string/current_weather"/>
+
+    <TextView
+        android:id="@+id/current_weather_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:textSize="18sp"/>
+
     <ListView
 
         android:id="@+id/upcoming_flight_list_view"

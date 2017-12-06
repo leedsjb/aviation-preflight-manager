@@ -242,10 +242,10 @@ public class MainActivity extends AppCompatActivity
             TextView upcomingItemDate = (TextView) convertView.findViewById(R.id.upcoming_item_date);
 
             DateFormat df = new SimpleDateFormat("MM.dd");
-            String dueDate = df.format(item.getDate());
+            if(false) { String dueDate = df.format(item.getDate());
 
             upcomingItemTitle.setText(item.getTitle());
-            upcomingItemDate.setText("Due: " + dueDate);
+            upcomingItemDate.setText("Due: " + dueDate); }
 
             return convertView;
         }

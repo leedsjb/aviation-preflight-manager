@@ -59,6 +59,7 @@ public class UpcomingFlight extends AppCompatActivity {
         setContentView(R.layout.activity_upcoming_flight);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myAdapter = new MyAdapter(this, mData);
         ListView listView = findViewById(R.id.upcoming_flight_list_view);
@@ -68,14 +69,18 @@ public class UpcomingFlight extends AppCompatActivity {
         MyReceiver mBroadcastReceiver = new MyReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(AirportService.PROCESS_AIRPORT);
-        /*
         filter.addAction(CurrentLocationService.PROCESS_LOCATION);
         filter.addAction(CurrentLocationService.REQUEST_LOCATION_PERM);
         filter.addAction(WeatherService.PROCESS_WEATHER);
-        */
+
         LocalBroadcastManager bm = LocalBroadcastManager.getInstance(this);
         bm.registerReceiver(mBroadcastReceiver, filter);
 
+        //starts service to get current location and load weather data
+        Intent locationIntent = new Intent(UpcomingFlight.this, CurrentLocationService.class);
+        startService(locationIntent);
+
+        //sets up fab to start an input dialog for IATA codes to search for
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
         fab.setImageDrawable(fabIcon);
@@ -186,14 +191,14 @@ public class UpcomingFlight extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            /*
+
             if (intent.getAction().equals(CurrentLocationService.REQUEST_LOCATION_PERM)) {
-                int permissionCheck = ContextCompat.checkSelfPermission(getParent(), Manifest.permission.ACCESS_FINE_LOCATION);
+                int permissionCheck = ContextCompat.checkSelfPermission(UpcomingFlight.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     Intent locationIntent = new Intent(UpcomingFlight.this, CurrentLocationService.class);
                     startService(locationIntent);
                 } else {
-                    ActivityCompat.requestPermissions(getParent(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
+                    ActivityCompat.requestPermissions(UpcomingFlight.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
                 }
             } else if (intent.getAction().equals(CurrentLocationService.PROCESS_LOCATION)) {
                 Log.v(TAG, "location received");
@@ -202,8 +207,9 @@ public class UpcomingFlight extends AppCompatActivity {
                 weatherIntent.putExtra(WeatherService.LONGITUDE_KEY, intent.getDoubleExtra(CurrentLocationService.LOCATION_LONGITUDE_KEY, 0));
                 startService(weatherIntent);
             } else if (intent.getAction().equals(WeatherService.PROCESS_WEATHER)) {
-                Log.v(TAG, ((ForecastData) intent.getParcelableExtra(WeatherService.WEATHER_KEY)).weather);
-            }*/
+                TextView weatherText = findViewById(R.id.current_weather_view);
+                weatherText.setText(((ForecastData) intent.getParcelableExtra(WeatherService.WEATHER_KEY)).weather);
+            }
             if(intent.getAction().equals(AirportService.PROCESS_AIRPORT)) {
                 Log.v(TAG, "something received");
                 AirportData airportData = intent.getParcelableExtra(AirportService.AIRPORT_KEY);
