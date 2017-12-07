@@ -59,11 +59,18 @@ public class AircraftDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.aircraft_detail, container, false);
-
+        String aircraft = getString(R.string.aircraft);
+        String serial = getResources().getString(R.string.text_ac_serial_number_label);
+        String yr = getResources().getString(R.string.text_ac_year_manufactured_label);
+        String tach = getResources().getString(R.string.text_ac_tach_time_label);
+        String fuel = getResources().getString(R.string.text_ac_fuel_level_label);
         // Show aircraft details as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.aircraft_detail)).setText(mItem.serialNumber);
-            // TODO Issue 39: https://github.com/leedsjb/aviation-preflight-manager/issues/39
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_planeName)).setText(aircraft + ": " + mItem.planeName);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_serial)).setText(serial + ": " + mItem.serialNumber);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_yearManufactured)).setText(yr + ": " + mItem.yearOfManufacture);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_tachometerTime)).setText(tach + ": " + mItem.tachometerTime);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_fuelLevel)).setText(fuel + ": " + mItem.fuelLevel);
         }
 
         return rootView;
