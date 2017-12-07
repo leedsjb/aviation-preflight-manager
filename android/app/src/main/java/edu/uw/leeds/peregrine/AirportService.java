@@ -5,19 +5,18 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Airport Service for getting information about airports based on a code
+ * @author Jakersnorth
+ * @version Wednesday December 6, 2017
  */
-
 public class AirportService extends IntentService {
 
     private final String TAG = "WeatherService";
@@ -35,7 +34,6 @@ public class AirportService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Log.v(TAG, "intent recieved");
         String airportCode = intent.getStringExtra(AIRPORT_CODE_KEY);
         downloadAirportData(airportCode);
     }
@@ -43,16 +41,14 @@ public class AirportService extends IntentService {
     //download weather data from OpenWeather
     private void downloadAirportData(final String airportCode) {
 
+        // TODO build with URI.Builder
         String urlString = "http://services.faa.gov/airport/status/"
                 + airportCode + "?format=application/json";
 
         Request request = new StringRequest(Request.Method.GET, urlString,
                 new Response.Listener<String>() {
                     public void onResponse(String response) {
-                        Log.v(TAG, response);
-
                         JSONObject resp;
-
 
                         //get weather data from within JSON object
                         try {
@@ -75,26 +71,25 @@ public class AirportService extends IntentService {
                             Log.v(TAG, "Error parsing JSON", err);
                             return;
                         }
-
                         broadcastAirport(temp);
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.toString());
+                Log.e(TAG, error.getMessage());
             }
         });
 
-        RequestSingleton.getInstance(this).add(request);
+        RequestSingleton.getInstance(this).add(request); // add request to Volley queue
     }
 
+    /**
+     * Sends AirportData as a broadcast
+     * @param airport the airport to broadcast
+     */
     public void broadcastAirport(AirportData airport) {
-        Log.v(TAG, "broadcasting airport " + airport.name);
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(AirportService.PROCESS_AIRPORT);
-        //broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtra(AIRPORT_KEY, airport);
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }

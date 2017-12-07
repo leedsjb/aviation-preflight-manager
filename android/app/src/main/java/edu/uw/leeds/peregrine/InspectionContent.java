@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,10 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author saksi
- * Created: 11/28/17
- * Modified: 12/4/17
  * Store a list of inspection items the user has added and the details for those inspection items.
+ * @author saksi
+ * @version Created: 11/28/17
+ * Modified: Wednesday December 6. 2017
  */
 public class InspectionContent {
     /**
@@ -43,7 +42,7 @@ public class InspectionContent {
     private static boolean addNewListener = true;
 
     /**
-     * TODO add JDoc
+     * Initialize local InspectionContent data from Firebase remote storage
      */
     static void initializeData(){
 
@@ -83,29 +82,21 @@ public class InspectionContent {
                                 if(ITEMS.get(i).id.equals(inspectionItem.id)) {
                                     ITEMS.remove(i);
                                     ITEMS.add(i, inspectionItem);
-
                                     break;
                                 }
-
                             }
                             int intId = Integer.decode(inspectionItem.getId());
                             InspectionItemListActivity.notifyChange(intId);
                         }
 
                         @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                        }
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
                         @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
+                        public void onCancelled(DatabaseError databaseError) {}
                     };
 
                     DatabaseReference inspectionReference =
@@ -176,8 +167,6 @@ public class InspectionContent {
 
     // called when a new item is added to firebase
     static void addItem(InspectionItem item) {
-        Log.e(TAG, "add item called");
-        Log.e(TAG, "the item.id is: " + item.id);
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
@@ -186,6 +175,9 @@ public class InspectionContent {
      * Created by saksi on 11/27/17.
      *
      * One inspection task for aircraft airworthiness.
+     * @author saksi
+     * @version Modified: Wednesday December 6. 2017
+     * Created: November 27. 2017
      */
     public static class InspectionItem implements MainActivity.ToDoItem{
         public String id;
@@ -234,18 +226,22 @@ public class InspectionContent {
             return this.dueNext;
         }
 
+        @Exclude
         public String getDescription() {
             return this.description;
         }
 
+        @Exclude
         public String getRequirements() {
             return this.requirements;
         }
 
+        @Exclude
         public String getResources() {
             return this.resources;
         }
 
+        @Exclude
         public String getOwner() {
             return this.owner;
         }

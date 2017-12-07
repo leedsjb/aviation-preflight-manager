@@ -2,7 +2,6 @@ package edu.uw.leeds.peregrine;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.Date;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Date;
  * these objects only exist within the application and other
  * examples did the same thing.
  */
-
 public class ForecastData implements Parcelable {
     public Date time;
     public String temperature;
@@ -53,7 +51,7 @@ public class ForecastData implements Parcelable {
         dest.writeDouble(longitude);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // TODO @Jakersnorth remove or modify
     public static final Parcelable.Creator<ForecastData> CREATOR = new Parcelable.Creator<ForecastData>() {
         @Override
         public ForecastData createFromParcel(Parcel in) {
