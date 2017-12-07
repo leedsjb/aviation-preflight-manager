@@ -3,9 +3,7 @@ package edu.uw.leeds.peregrine;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,9 +11,6 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +29,7 @@ public class InspectionItemDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspectionitem_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -65,7 +60,7 @@ public class InspectionItemDetailActivity extends AppCompatActivity {
                     .add(R.id.inspectionitem_detail_container, fragment)
                     .commit();
 
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            FloatingActionButton fab = findViewById(R.id.fab);
             Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_check_circle_black_24dp);
             fab.setImageDrawable(fabIcon);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +81,6 @@ public class InspectionItemDetailActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Log.v(TAG, "Restoring title");
             setTitle(savedInstanceState.getString(ACTIVITY_TITLE_KEY));
         }
     }

@@ -6,6 +6,8 @@ import android.os.Parcelable;
 /**
  * Airport Object for storing airport information
  *  modified to be parcelable
+ *  @author Jakersnorth
+ *  @version Modified: Wednesday December 6, 2017
  */
 
 public class AirportData implements Parcelable {
@@ -42,7 +44,7 @@ public class AirportData implements Parcelable {
         dest.writeString(delayType);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // TODO @Jakersnorth
     public static final Parcelable.Creator<AirportData> CREATOR = new Parcelable.Creator<AirportData>() {
         @Override
         public AirportData createFromParcel(Parcel in) {

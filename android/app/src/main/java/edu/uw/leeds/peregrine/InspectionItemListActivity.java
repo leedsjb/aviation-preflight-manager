@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,12 +49,12 @@ public class InspectionItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspectionitem_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         Drawable fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp);
         fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,27 +121,26 @@ public class InspectionItemListActivity extends AppCompatActivity {
                         try {
                             dueDate = df.parse(inputDueNext.getText().toString());
                         } catch (ParseException err) {
-                            Log.v(TAG, "invalid date sumbitted");
+                            Log.v(TAG, "invalid date sumbitted"); // TODO inline error handling
                         }
-                        InspectionContent.InspectionItem newInspectionItem = new InspectionContent.InspectionItem(
-                                null,
-                                inputTitle.getText().toString(),
-                                inputDescription.getText().toString(),
-                                inputRequirements.getText().toString(),
-                                inputResources.getText().toString(),
-                                dueDate.getTime(),
-                                "none",
-                                FirebaseAuth.getInstance().getCurrentUser().getUid()
-                        );
+                        InspectionContent.InspectionItem newInspectionItem =
+                                new InspectionContent.InspectionItem(
+                                    null,
+                                    inputTitle.getText().toString(),
+                                    inputDescription.getText().toString(),
+                                    inputRequirements.getText().toString(),
+                                    inputResources.getText().toString(),
+                                    dueDate.getTime(),
+                                    "none",
+                                    FirebaseAuth.getInstance().getCurrentUser().getUid()
+                                );
                         InspectionContent.addInspectionToUserProfile(newInspectionItem);
 
                     }
                 });
                 builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) {}
                 });
 
                 builder.setView(layout);
@@ -161,7 +157,7 @@ public class InspectionItemListActivity extends AppCompatActivity {
         }
 
         InspectionContent.initializeData();
-//        InspectionContent.addItem(sample);
+//        InspectionContent.addItem(sample); // TODO needed? @Jakersnorth
 //        InspectionContent.addInspectionToUserProfile(sample);
 
         View recyclerView = findViewById(R.id.inspectionitem_list);
@@ -252,8 +248,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                mContentView = (TextView) view.findViewById(R.id.inspection_item_title);
-                mDueDateView = (TextView) view.findViewById(R.id.inspection_item_dueDate);
+                mContentView = view.findViewById(R.id.inspection_item_title);
+                mDueDateView = view.findViewById(R.id.inspection_item_dueDate);
             }
         }
     }

@@ -50,4 +50,5 @@
     <string name="text_ac_fuel_level_label">Current Fuel Level</string>
     <string name="button_text_add_aircraft">ADD AIRCRAFT</string>
     <string name="button_text_cancel">CANCEL</string>
+    <string name="aircraft">Aircraft</string>
 </resources>
