@@ -27,10 +27,24 @@
     <string name="airport_icon">Airport</string>
     <string name="airport_delay">Airport Delay Status</string>
 
+    <!--Input Form Headers-->
+    <string name="header_add_new_inspection">Add New Inspection</string>
+    <string name="header_add_new_physical">Add New Physical Inspection</string>
+    <string name="header_title">Title:</string>
     <string name="header_description">Description:</string>
     <string name="header_requirements">Requirements:</string>
     <string name="header_resources">Resources:</string>
     <string name="header_next_due">Next Due:</string>
+
+    <!--Input Form Hints-->
+    <string name="hint_title">title</string>
+    <string name="hint_description">description</string>
+    <string name="hint_requirements">requirements</string>
+    <string name="hint_resources">resources</string>
+    <string name="hint_next_due">MM-dd-yyyy</string>
+
+    <string name="date_error">Incorrect Date Format</string>
+    <string name="update_toast">Due Date Updated</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

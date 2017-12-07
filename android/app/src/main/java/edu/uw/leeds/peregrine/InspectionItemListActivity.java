@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,55 +63,55 @@ public class InspectionItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(InspectionItemListActivity.this, R.style.Theme_AppCompat_Dialog_Alert);
-                builder.setTitle("Add New Inspection Item");
+                builder.setTitle(getString(R.string.header_add_new_inspection));
 
                 LinearLayout layout = new LinearLayout(InspectionItemListActivity.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
                 // Set up the input
                 final TextView textTitle = new TextView(getApplicationContext());
-                textTitle.setText("Title");
+                textTitle.setText(getString(R.string.header_title));
                 layout.addView(textTitle);
 
                 final EditText inputTitle = new EditText(getApplicationContext());
                 inputTitle.setInputType(InputType.TYPE_CLASS_TEXT);
-                inputTitle.setHint("title");
+                inputTitle.setHint(getString(R.string.hint_title));
                 layout.addView(inputTitle);
 
                 final TextView textDescription = new TextView(getApplicationContext());
-                textDescription.setText("Description");
+                textDescription.setText(getString(R.string.header_description));
                 layout.addView(textDescription);
 
                 final EditText inputDescription = new EditText(getApplicationContext());
                 inputDescription.setInputType(InputType.TYPE_CLASS_TEXT);
-                inputDescription.setHint("description");
+                inputDescription.setHint(getString(R.string.hint_description));
                 layout.addView(inputDescription);
 
                 final TextView textRequirements = new TextView(getApplicationContext());
-                textRequirements.setText("Requirements");
+                textRequirements.setText(getString(R.string.header_requirements));
                 layout.addView(textRequirements);
 
                 final EditText inputRequirements = new EditText(getApplicationContext());
                 inputRequirements.setInputType(InputType.TYPE_CLASS_TEXT);
-                inputRequirements.setHint("requirements");
+                inputRequirements.setHint(getString(R.string.hint_requirements));
                 layout.addView(inputRequirements);
 
                 final TextView textResources = new TextView(getApplicationContext());
-                textResources.setText("Resources");
+                textResources.setText(getString(R.string.header_resources));
                 layout.addView(textResources);
 
                 final EditText inputResources = new EditText(getApplicationContext());
                 inputResources.setInputType(InputType.TYPE_CLASS_TEXT);
-                inputResources.setHint("resources");
+                inputResources.setHint(getString(R.string.hint_resources));
                 layout.addView(inputResources);
 
                 final TextView textNextDue = new TextView(getApplicationContext());
-                textNextDue.setText("Next Due Date");
+                textNextDue.setText(getString(R.string.header_next_due));
                 layout.addView(textNextDue);
 
                 final EditText inputDueNext = new EditText(getApplicationContext());
                 inputDueNext.setInputType(InputType.TYPE_CLASS_DATETIME);
-                inputDueNext.setHint("MM-dd-YYYY");
+                inputDueNext.setHint(getString(R.string.hint_next_due));
                 layout.addView(inputDueNext);
 
                 // Set up the buttons
@@ -121,7 +123,8 @@ public class InspectionItemListActivity extends AppCompatActivity {
                         try {
                             dueDate = df.parse(inputDueNext.getText().toString());
                         } catch (ParseException err) {
-                            Log.v(TAG, "invalid date sumbitted"); // TODO inline error handling
+                           Toast.makeText(getApplicationContext(), R.string.date_error, Toast.LENGTH_LONG).show();
+                            return;
                         }
                         InspectionContent.InspectionItem newInspectionItem =
                                 new InspectionContent.InspectionItem(
