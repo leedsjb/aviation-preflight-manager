@@ -76,7 +76,7 @@ public class AirportService extends IntentService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage());
+                Log.e(TAG, "invalid airport code");
             }
         });
 
