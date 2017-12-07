@@ -38,9 +38,9 @@ public class AircraftContent {
     /**
      * Called by onCreate() in AircraftListActivity
      * Attaches to Firebase database and initializes ITEMS with cloud data
+     * by adding event listeners to the Firebase DatabaseReference
      */
     protected static void initializeData(){
-        // reference to the aircraft node in Firebase
 
         // clear data to prevent duplicates
         ITEMS.clear(); // clear data from local ArrayList<>
@@ -53,9 +53,7 @@ public class AircraftContent {
 
                 // un-marshal aircraft object from Firebase snapshot
                 AircraftItem acItem = dataSnapshot.getValue(AircraftItem.class);
-
                 addItem(acItem); // add item from Firebase to local data store
-
                 AircraftListActivity.notifyChange(acItem.id); // notify RecyclerView of data change
 
             }
@@ -77,7 +75,7 @@ public class AircraftContent {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "database error");
+                Log.e(TAG, "database error: " + databaseError.getMessage()); // TODO display to user via Toast
             }
         };
 
@@ -86,7 +84,8 @@ public class AircraftContent {
     }
 
     /**
-     * removes ChildEventListener from DatabaseReference when activity is paused
+     * removes ChildEventListener from DatabaseReference
+     * Called from activity onPause()
      */
     protected static void removeEvListener(){
         if(childEventListener != null){
@@ -124,7 +123,9 @@ public class AircraftContent {
     }
 
     /**
-     * Created by saksi on 11/27/17.
+     * @author saksi
+     * Created: 11/27/17
+     * @version Modified: 12/6/2017
      *
      * One inspection task for aircraft airworthiness.
      */
@@ -187,7 +188,6 @@ public class AircraftContent {
             result.put("yearOfManufacture", this.yearOfManufacture);
             result.put("tachometerTime", this.tachometerTime);
             result.put("fuelLevel", this.fuelLevel);
-
             return result;
         }
 

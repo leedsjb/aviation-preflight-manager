@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import edu.uw.leeds.peregrine.dummy.DummyContent;
 
 /**
  * A fragment representing a single Aircraft detail screen.
  * This fragment is either contained in a {@link AircraftListActivity}
  * in two-pane mode (on tablets) or a {@link AircraftDetailActivity}
  * on handsets.
+ * @author benjaminleeds
+ * @version Modified: Wednesday December 6 2017
  */
 public class AircraftDetailFragment extends Fragment {
     /**
@@ -27,7 +26,7 @@ public class AircraftDetailFragment extends Fragment {
     private static final String TAG = "AcftDtlFragment";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Aircraft this fragment is presenting.
      */
     private AircraftContent.AircraftItem mItem;
 
@@ -44,12 +43,12 @@ public class AircraftDetailFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the aircraft detail specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+            // arguments.
+            // // TODO Consider using a Loader to load content from a content provider.
             mItem = AircraftContent.ITEM_MAP.get(getArguments().getInt(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.planeName);
             }
@@ -60,10 +59,18 @@ public class AircraftDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.aircraft_detail, container, false);
-
-        // Show the dummy content as text in a TextView.
+        String aircraft = getString(R.string.aircraft);
+        String serial = getResources().getString(R.string.text_ac_serial_number_label);
+        String yr = getResources().getString(R.string.text_ac_year_manufactured_label);
+        String tach = getResources().getString(R.string.text_ac_tach_time_label);
+        String fuel = getResources().getString(R.string.text_ac_fuel_level_label);
+        // Show aircraft details as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.aircraft_detail)).setText(mItem.serialNumber);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_planeName)).setText(aircraft + ": " + mItem.planeName);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_serial)).setText(serial + ": " + mItem.serialNumber);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_yearManufactured)).setText(yr + ": " + mItem.yearOfManufacture);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_tachometerTime)).setText(tach + ": " + mItem.tachometerTime);
+            ((TextView) rootView.findViewById(R.id.aircraft_detail_fuelLevel)).setText(fuel + ": " + mItem.fuelLevel);
         }
 
         return rootView;

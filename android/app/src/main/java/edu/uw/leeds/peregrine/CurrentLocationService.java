@@ -6,30 +6,28 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 /**
  * Location service for getting the current user location
+ * @author Jakersnorth
+ * @version: Modified Wednesday December 6, 2017
  */
-
 public class CurrentLocationService extends IntentService implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
-    private final String TAG = "CurrentLocationService";
+    private static final String TAG = "CurrentLocationService";
 
     public static final String PROCESS_LOCATION = "PROCESS_LOCATION";
     public static final String REQUEST_LOCATION_PERM = "REQUEST_LOCATION";
@@ -43,6 +41,11 @@ public class CurrentLocationService extends IntentService implements
     public CurrentLocationService() {
         super("MapSavingService");
     }
+
+    /**
+     * Handle intents sent to the service
+     * @param intent the intent received
+     */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if(mGoogleApiClient == null) {
@@ -63,7 +66,6 @@ public class CurrentLocationService extends IntentService implements
     }
 
     private void startLocationRequest() {
-        Log.v(TAG, "starting location request");
         request = new LocationRequest();
         request.setInterval(10000);
         request.setFastestInterval(5000);
@@ -72,21 +74,16 @@ public class CurrentLocationService extends IntentService implements
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            Log.v(TAG, "requesting location");
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, request, this);
-        } else {
-            Log.v(TAG, "need location perms");
+        } else { // permission denied
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(CurrentLocationService.REQUEST_LOCATION_PERM);
-            //broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
             LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
         }
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -98,7 +95,6 @@ public class CurrentLocationService extends IntentService implements
         Log.v(TAG, "location change");
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(CurrentLocationService.PROCESS_LOCATION);
-        //broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtra(LOCATION_LONGITUDE_KEY, location.getLongitude());
         broadcastIntent.putExtra(LOCATION_LATITUDE_KEY, location.getLatitude());
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
@@ -108,6 +104,7 @@ public class CurrentLocationService extends IntentService implements
     }
 }
 
+// TODO @Jakersnorth delete or modify
 /*
 private class MyReceiver extends BroadcastReceiver {
 

@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,8 +34,7 @@ public class InspectionItemDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public InspectionItemDetailFragment() {
-    }
+    public InspectionItemDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +48,8 @@ public class InspectionItemDetailFragment extends Fragment {
             mItem = InspectionContent.ITEM_MAP.get(key);
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-//                appBarLayout.setTitle(mItem.title);
                 appBarLayout.setTitle(mItem.title);
             }
         }
@@ -62,9 +58,8 @@ public class InspectionItemDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout appBarLayout = getActivity().findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
-//                appBarLayout.setTitle(mItem.title);
             appBarLayout.setTitle(mItem.title);
         }
     }
@@ -74,7 +69,7 @@ public class InspectionItemDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.inspectionitem_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the Inspection Item content as text in a TextView.
         if (mItem != null) {
             SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
             String date = format.format(new Date(mItem.dueNext));
